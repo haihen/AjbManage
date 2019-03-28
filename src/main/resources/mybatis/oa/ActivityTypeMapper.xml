@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.oa.dao.ActivityTypeDao">
+
+	<select id="get" resultType="com.bootdo.oa.domain.ActivityTypeDO">
+		select `id`,`type`,`is_deleted` from web_activity_type where id = #{value} and is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.bootdo.oa.domain.ActivityTypeDO">
+		select `id`,`type`,`is_deleted` from web_activity_type
+        <where>  
+         and is_deleted = 0
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_activity_type
+		 <where>  
+		  and is_deleted = 0
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.oa.domain.ActivityTypeDO">
+		insert into web_activity_type
+		(
+			`id`, 
+			`type`
+		)
+		values
+		(
+			#{id}, 
+			#{type}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.oa.domain.ActivityTypeDO">
+		update web_activity_type 
+		<set>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="isDeleted != null">`is_deleted` = #{isDeleted}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="remove">
+		update web_activity_type set `is_deleted` = 1 where id = #{value}
+	</update>	
+	
+	<delete id="batchRemove">
+		delete from web_activity_type where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
