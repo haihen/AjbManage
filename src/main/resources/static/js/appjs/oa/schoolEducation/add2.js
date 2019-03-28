@@ -49,8 +49,12 @@ function validateRule() {
 
 function loadType(){
 	var html = "";
+	var params = {
+            'level' : 1
+        };
 	$.ajax({
-		url : '/oa/schoolEducation/getType1',
+		url : '/oa/schoolEducation/getListByType',
+		data : params,
 		success : function(data) {
 			//加载数据
 			for (var i = 0; i < data.length; i++) {

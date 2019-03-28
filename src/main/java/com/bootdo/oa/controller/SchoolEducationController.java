@@ -83,11 +83,9 @@ public class SchoolEducationController {
 	    return "oa/schoolEducation/add2";
 	}
 
-	@GetMapping("/getType1")
+	@GetMapping("/getListByType")
 	@ResponseBody
-	public List<SchoolEducationDO> getType1(){
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("level", 1);
+	public List<SchoolEducationDO> getListByType(@RequestParam Map<String, Object> params){
 		List<SchoolEducationDO> schoolEducationList = schoolEducationService.list(params);
 		return schoolEducationList;
 	}
@@ -149,9 +147,16 @@ public class SchoolEducationController {
 	@ResponseBody
 	@RequiresPermissions("oa:schoolEducation:remove")
 	public R remove( Integer id){
-		if(schoolEducationService.remove(id)>0){
-		return R.ok();
+		int count = 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pid", id);
+		count = schoolEducationService.count(map);
+		if(count==0){
+			if(schoolEducationService.remove(id)>0){
+				return R.ok();
+			}
 		}
+
 		return R.error();
 	}
 	

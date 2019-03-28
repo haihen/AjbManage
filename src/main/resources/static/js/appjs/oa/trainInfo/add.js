@@ -8,6 +8,13 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+	var video1,video2;
+	video1 = $("#trainVideo").val();
+	video2 = $("#trainVideoUrl").val();
+	if(!video1 && !video2){
+		parent.layer.alert("请选择技能培训视频");
+		return;
+	}
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -36,14 +43,14 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
-				required : true
-			}
+			fkTypeId : "required",
+			title : "required",
+			coverImg : "required"
 		},
 		messages : {
-			name : {
-				required : icon + "请输入姓名"
-			}
+			fkTypeId : "请选择技能培训类型",
+			title : "请填写技能培训标题",
+			coverImg : "请选择技能培训封面图片"
 		}
 	})
 }

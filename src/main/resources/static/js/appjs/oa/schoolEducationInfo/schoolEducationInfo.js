@@ -45,27 +45,16 @@ function load() {
 						// 返回false将会终止请求
 						columns : [
 								{
-									checkbox : true
-								},
-																{
-									field : 'id', 
-									title : '' 
-								},
-																{
 									field : 'title', 
 									title : '学历教育标题' 
 								},
 																{
-									field : 'fkTypeId1', 
-									title : '学历教育类型ID1' 
+									field : 'fkType1', 
+									title : '学历教育一级类型' 
 								},
 																{
-									field : 'fkTypeId2', 
-									title : '学历教育类型ID2' 
-								},
-																{
-									field : 'context', 
-									title : '学历教育内容' 
+									field : 'fkType2', 
+									title : '学历教育二级类型' 
 								},
 																{
 									field : 'createTime', 
@@ -74,14 +63,6 @@ function load() {
 																{
 									field : 'createUser', 
 									title : '创建人' 
-								},
-																{
-									field : 'modifyTime', 
-									title : '修改时间' 
-								},
-																{
-									field : 'isDeleted', 
-									title : '' 
 								},
 																{
 									title : '操作',
@@ -111,7 +92,7 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '1200px', '700px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -121,7 +102,7 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '1200px', '700px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }

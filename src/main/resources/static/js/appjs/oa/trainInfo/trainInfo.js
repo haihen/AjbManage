@@ -45,27 +45,8 @@ function load() {
 						// 返回false将会终止请求
 						columns : [
 								{
-									checkbox : true
-								},
-																{
-									field : 'id', 
-									title : '' 
-								},
-																{
-									field : 'fkTypeId', 
-									title : '技能培训ID' 
-								},
-																{
 									field : 'title', 
 									title : '技能培训标题' 
-								},
-																{
-									field : 'coverImg', 
-									title : '技能培训封面' 
-								},
-																{
-									field : 'trainVideo', 
-									title : '技能培训视频' 
 								},
 																{
 									field : 'createTime', 
@@ -74,14 +55,6 @@ function load() {
 																{
 									field : 'createUser', 
 									title : '创建人' 
-								},
-																{
-									field : 'browseCount', 
-									title : '浏览量' 
-								},
-																{
-									field : 'isDeleted', 
-									title : '' 
 								},
 																{
 									title : '操作',
@@ -111,7 +84,7 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '1000px', '700px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -121,7 +94,7 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '1000px', '700px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }

@@ -21,8 +21,10 @@ public class SchoolEducationInfoDO implements Serializable {
 	private String title;
 	//学历教育类型ID1
 	private Integer fkTypeId1;
+	private String fkType1;
 	//学历教育类型ID2
 	private Integer fkTypeId2;
+	private String fkType2;
 	//学历教育内容
 	private String context;
 	//创建时间
@@ -81,6 +83,19 @@ public class SchoolEducationInfoDO implements Serializable {
 	 */
 	public Integer getFkTypeId2() {
 		return fkTypeId2;
+	}
+	
+	public String getFkType1() {
+		return fkType1;
+	}
+	public void setFkType1(String fkType1) {
+		this.fkType1 = fkType1;
+	}
+	public String getFkType2() {
+		return fkType2;
+	}
+	public void setFkType2(String fkType2) {
+		this.fkType2 = fkType2;
 	}
 	/**
 	 * 设置：学历教育内容

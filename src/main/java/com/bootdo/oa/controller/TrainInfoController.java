@@ -1,5 +1,6 @@
 package com.bootdo.oa.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bootdo.oa.domain.SchoolEducationDO;
 import com.bootdo.oa.domain.TrainInfoDO;
+import com.bootdo.oa.domain.TrainTypeDO;
 import com.bootdo.oa.service.TrainInfoService;
+import com.bootdo.oa.service.TrainTypeService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -34,6 +38,8 @@ import com.bootdo.common.utils.R;
 public class TrainInfoController {
 	@Autowired
 	private TrainInfoService trainInfoService;
+	@Autowired
+	private TrainTypeService trainTypeService;
 	
 	@GetMapping()
 	@RequiresPermissions("oa:trainInfo:trainInfo")
@@ -55,7 +61,10 @@ public class TrainInfoController {
 	
 	@GetMapping("/add")
 	@RequiresPermissions("oa:trainInfo:add")
-	String add(){
+	String add(Model model){
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<TrainTypeDO> trainTypeList = trainTypeService.list(params);
+		model.addAttribute("trainTypeList", trainTypeList);
 	    return "oa/trainInfo/add";
 	}
 

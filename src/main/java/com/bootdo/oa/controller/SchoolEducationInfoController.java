@@ -1,5 +1,6 @@
 package com.bootdo.oa.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bootdo.oa.domain.SchoolEducationDO;
 import com.bootdo.oa.domain.SchoolEducationInfoDO;
 import com.bootdo.oa.service.SchoolEducationInfoService;
+import com.bootdo.oa.service.SchoolEducationService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -34,6 +37,8 @@ import com.bootdo.common.utils.R;
 public class SchoolEducationInfoController {
 	@Autowired
 	private SchoolEducationInfoService schoolEducationInfoService;
+	@Autowired
+	private SchoolEducationService schoolEducationService;
 	
 	@GetMapping()
 	@RequiresPermissions("oa:schoolEducationInfo:schoolEducationInfo")
@@ -55,7 +60,11 @@ public class SchoolEducationInfoController {
 	
 	@GetMapping("/add")
 	@RequiresPermissions("oa:schoolEducationInfo:add")
-	String add(){
+	String add(Model model){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("level", 1);
+		List<SchoolEducationDO> schoolEducationList = schoolEducationService.list(params);
+		model.addAttribute("schoolEducationList", schoolEducationList);
 	    return "oa/schoolEducationInfo/add";
 	}
 
@@ -64,6 +73,15 @@ public class SchoolEducationInfoController {
 	String edit(@PathVariable("id") Integer id,Model model){
 		SchoolEducationInfoDO schoolEducationInfo = schoolEducationInfoService.get(id);
 		model.addAttribute("schoolEducationInfo", schoolEducationInfo);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("level", 1);
+		List<SchoolEducationDO> schoolEducationList = schoolEducationService.list(params);
+		for(SchoolEducationDO sd : schoolEducationList){
+			if(sd.getId()!=null && sd.getId().equals(schoolEducationInfo.getFkTypeId1())){
+				sd.setSfxz("abc");
+			}
+		}
+		model.addAttribute("schoolEducationList", schoolEducationList);
 	    return "oa/schoolEducationInfo/edit";
 	}
 	

@@ -45,19 +45,8 @@ function load() {
 						// 返回false将会终止请求
 						columns : [
 								{
-									checkbox : true
-								},
-																{
-									field : 'id', 
-									title : '' 
-								},
-																{
 									field : 'type', 
 									title : '技能培训类型' 
-								},
-																{
-									field : 'isDeleted', 
-									title : '' 
 								},
 																{
 									title : '操作',

@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.oa.dao.SchoolEducationInfoDao;
 import com.bootdo.oa.domain.SchoolEducationInfoDO;
 import com.bootdo.oa.service.SchoolEducationInfoService;
+import com.bootdo.system.domain.UserDO;
 
 
 
@@ -34,6 +36,8 @@ public class SchoolEducationInfoServiceImpl implements SchoolEducationInfoServic
 	
 	@Override
 	public int save(SchoolEducationInfoDO schoolEducationInfo){
+		UserDO u = ShiroUtils.getUser();
+		schoolEducationInfo.setCreateUser(u.getUsername());
 		return schoolEducationInfoDao.save(schoolEducationInfo);
 	}
 	
