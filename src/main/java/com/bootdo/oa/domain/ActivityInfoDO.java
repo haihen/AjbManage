@@ -19,6 +19,7 @@ public class ActivityInfoDO implements Serializable {
 	private Integer id;
 	//特色活动类型ID
 	private Integer fkTypeId;
+	private String fkType;
 	//特色活动标题
 	private String title;
 	//特色活动内容
@@ -53,6 +54,13 @@ public class ActivityInfoDO implements Serializable {
 	 */
 	public Integer getFkTypeId() {
 		return fkTypeId;
+	}
+	
+	public String getFkType() {
+		return fkType;
+	}
+	public void setFkType(String fkType) {
+		this.fkType = fkType;
 	}
 	/**
 	 * 设置：特色活动标题

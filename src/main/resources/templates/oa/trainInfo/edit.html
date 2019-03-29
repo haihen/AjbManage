@@ -8,15 +8,15 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<form class="form-horizontal m-t" id="signupForm">
+						<form class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data">
 						<input id="id" name="id" th:value="${trainInfo.id}"  type="hidden">
 							<div class="form-group">	
 								<label class="col-sm-3 control-label">技能培训类型：</label>
 								<div class="col-sm-8">
-									<input id="fkTypeId" name="fkTypeId" th:value="${trainInfo.fkTypeId}" class="form-control" type="text">
 									<select data-placeholder="--选择类别--" name="fkTypeId" id="fkTypeId"
 										class="form-control chosen-select" tabindex="2">
 										<option value="">--选择类别--</option>
+										<option th:each="oaType : ${trainTypeList}" th:value="${oaType.id}" th:text="${oaType.type}" th:selected="${oaType.sfxz}?'selected'"></option>
 									</select>
 								</div>
 							</div>
@@ -29,15 +29,49 @@
 							<div class="form-group">	
 								<label class="col-sm-3 control-label">技能培训封面：</label>
 								<div class="col-sm-8">
-									<input id="coverImg" name="coverImg" th:value="${trainInfo.coverImg}" class="form-control" type="text">
+									<!-- <input id="coverImg" name="coverImg" class="form-control" type="text"> -->
+									<input id="coverImgFile" name="coverImgFile" class="form-control" type="file">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">封面图片：</label>	
+								<div class="col-sm-8">
+                                    <img id="preview" alt="image" class="img-responsive" th:src="${trainInfo.coverImg}"  width="200px" height="90px">
+                                </div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">视频地址：</label>
+								<div class="col-sm-8">
+									<input id="trainVideoShow" name="trainVideoShow" th:value="${trainInfo.trainVideo}" class="form-control" type="hidden" >
+									<span id="tspan" th:text="${trainInfo.trainVideo}"></span>
 								</div>
 							</div>
 							<div class="form-group">	
-								<label class="col-sm-3 control-label">技能培训视频：</label>
+								<label class="col-sm-3 control-label">视频类型：</label>
 								<div class="col-sm-8">
-									<input id="trainVideo" name="trainVideo" th:value="${trainInfo.trainVideo}" class="form-control" type="text">
+									<select data-placeholder="--选择类别--" name="videoType" id="videoType"
+										class="form-control chosen-select" tabindex="2">
+										<option value="">选择类别</option>
+										<option value="本地视频">本地视频</option>
+										<option value="在线视频">在线视频</option>
+									</select>
 								</div>
 							</div>
+							<div id="local" class="form-group" style="display:none;">	
+								<label class="col-sm-3 control-label">技能培训本地视频：</label>
+								<div class="col-sm-8">
+									<!-- <input id="trainVideo" name="trainVideo" class="form-control" type="text"> -->
+									<input id="trainVideoFile" name="trainVideoFile" class="form-control" type="file">
+								</div>
+							</div>
+							<div id="online" class="form-group" style="display:none;">	
+								<label class="col-sm-3 control-label">技能培训在线视频：</label>
+								<div class="col-sm-8">
+									<!-- <input id="trainVideo" name="trainVideo" class="form-control" type="text"> -->
+									<input id="trainVideoUrl" name="trainVideoUrl" class="form-control" type="text">
+								</div>
+							</div>
+
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
 									<button type="submit" class="btn btn-primary">提交</button>
@@ -52,5 +86,76 @@
 	<div th:include="include::footer"></div>
 	<script type="text/javascript" src="/js/appjs/oa/trainInfo/edit.js">
 	</script>
+	<script type="text/javascript">
+		$(function () {
+			$("#coverImgFile").change(function () {
+				var coverImg = $("#coverImgFile").val();
+				if (!$.trim(coverImg)) {
+					return;
+				}
+				var i = coverImg.lastIndexOf('.');
+				var len = coverImg.length;
+				var str = coverImg.substring(len, i + 1);
+				var extName = "BMP,JPG,JPEG,PNG,TIFF,GIF,PCX,TGA,EXIF,FPX,SVG,PSD,CDR,PCD,DXF,UFO,EPS,AI,RAW,WMF";
+				if (extName.indexOf(str.toUpperCase()) < 0) {
+					alert("请上传图片文件!");
+					return;
+				}
+				
+				var $file = $(this);
+				var fileObj = $file[0];
+				var windowURL = window.URL || window.webkitURL;
+				var dataURL;
+				var $img = $("#preview");
+				if (fileObj && fileObj.files && fileObj.files[0]) {
+					dataURL = windowURL.createObjectURL(fileObj.files[0]);
+					$img.attr('src', dataURL);
+			    } else {
+			    	
+					dataURL = $file.val();
+					//var imgObj = document.getElementById("preview");
+		 		 	//imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+				 	//imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL; 
+				 	$img.attr('src', dataURL);
+			 }
+	
+		  });
+			$("#trainVideoFile").change(function () {
+				var trainVideo = $("#trainVideoFile").val();
+				if (!$.trim(trainVideo)) {
+					return;
+				}
+				var i = trainVideo.lastIndexOf('.');
+				var len = trainVideo.length;
+				var str = trainVideo.substring(len, i + 1);
+				var extName = "MP4,AVI,MOV,WMV,ASF,NAVI,3GP,MKV,F4V,RMVB,WEBM";
+				if (extName.indexOf(str.toUpperCase()) < 0) {
+					alert("请上传视频文件!");
+					$("#trainVideoFile").val('');
+					return;
+				}
+	
+		  });
+			$("#videoType").change(function () {
+				var videoType = $("#videoType").val();
+				if(videoType=='本地视频'){
+					$("#local").css('display','');
+					$("#online").css('display','none');
+					$("#trainVideoUrl").val('');
+				} else if(videoType=='在线视频'){
+					$("#online").css('display','');
+					$("#local").css('display','none');
+					$("#trainVideo").val('');
+				} else if(videoType==''){
+					$("#online").css('display','none');
+					$("#local").css('display','none');
+					$("#trainVideo").val('');
+					$("#trainVideoUrl").val('');
+				}
+				
+		  });
+	    });
+	</script>
+
 </body>
 </html>

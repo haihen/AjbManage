@@ -1,4 +1,13 @@
 $().ready(function() {
+	$('.summernote').summernote({
+		height : '220px',
+		lang : 'zh-CN',
+		callbacks: {
+            onImageUpload: function(files, editor, $editable) {
+                sendFile(files);
+            }
+        }
+	});
 	validateRule();
 });
 
@@ -8,6 +17,12 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+	var content_sn = $("#content_sn").summernote('code');
+	if(content_sn=='<br>'||content_sn=='<p><br></p>'||content_sn==null||content_sn==''){
+		parent.layer.alert("请填写特色活动内容");
+		return;
+	}
+	$("#context").val(content_sn);
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -36,14 +51,14 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
-				required : true
-			}
+			title : "required",
+			fkTypeId : "required",
+			context : "required"
 		},
 		messages : {
-			name : {
-				required : icon + "请输入姓名"
-			}
+			title : "请填写特色活动标题",
+			fkTypeId : "请选择特色活动分类",
+			context : "请填写特色活动内容"
 		}
 	})
 }

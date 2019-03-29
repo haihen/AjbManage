@@ -1,4 +1,15 @@
 $().ready(function() {
+	$('.summernote').summernote({
+		height : '220px',
+		lang : 'zh-CN',
+		callbacks: {
+            onImageUpload: function(files, editor, $editable) {
+                sendFile(files);
+            }
+        }
+	});
+	var content = $("#context").val();
+	$('#content_sn').summernote('code', content);
 	validateRule();
 });
 
@@ -8,6 +19,12 @@ $.validator.setDefaults({
 	}
 });
 function update() {
+	var content_sn = $("#content_sn").summernote('code');
+	if(content_sn=='<br>'||content_sn=='<p><br></p>'||content_sn==null||content_sn==''){
+		parent.layer.alert("请填写通知公告内容");
+		return;
+	}
+	$("#context").val(content_sn);
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -36,14 +53,14 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
-				required : true
-			}
+			title : "required",
+			fkTypeId : "required",
+			context : "required"
 		},
 		messages : {
-			name : {
-				required : icon + "请输入名字"
-			}
+			title : "请填写通知公告标题",
+			fkTypeId : "请选择通知公告分类",
+			context : "请填写通知公告内容"
 		}
 	})
 }

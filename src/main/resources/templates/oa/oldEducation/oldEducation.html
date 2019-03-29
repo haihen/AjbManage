@@ -21,8 +21,19 @@
 							<button class="btn btn-success" onclick="reLoad()">查询</button>
 						</div>
 						<div class="columns pull-right col-md-2 nopadding">
-							<input id="searchName" type="text" class="form-control"
-								placeholder="">
+							<select data-placeholder="--选择类别--" name="type" id="type"
+                                     class="form-control chosen-select" tabindex="2" required>
+                                 <option value="">类型选择</option>
+                                 <option value="资讯中心-通知公告">资讯中心-通知公告</option>
+                                 <option value="资讯中心-教学动态">资讯中心-教学动态</option>
+                                 <option value="资讯中心-特色生活">资讯中心-特色生活</option>
+                                 <option value="资讯中心-学员风采">资讯中心-学员风采</option>
+                                 <option value="健康养生">健康养生</option>
+                                 <option value="快乐生活">快乐生活</option>
+                                 <option value="隔代教育">隔代教育</option>
+                                 <option value="家庭理财">家庭理财</option>
+                                 <option value="法律维权">法律维权</option>
+                             </select>
 						</div>
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true">

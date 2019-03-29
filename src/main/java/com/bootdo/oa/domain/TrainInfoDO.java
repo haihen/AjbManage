@@ -19,12 +19,15 @@ public class TrainInfoDO implements Serializable {
 	private Integer id;
 	//技能培训ID
 	private Integer fkTypeId;
+	private String fkType;
 	//技能培训标题
 	private String title;
 	//技能培训封面
 	private String coverImg;
 	//技能培训视频
 	private String trainVideo;
+	private String trainVideoUrl;
+	private String trainVideoShow;
 	//创建时间
 	private Date createTime;
 	//创建人
@@ -57,6 +60,13 @@ public class TrainInfoDO implements Serializable {
 	 */
 	public Integer getFkTypeId() {
 		return fkTypeId;
+	}
+	
+	public String getFkType() {
+		return fkType;
+	}
+	public void setFkType(String fkType) {
+		this.fkType = fkType;
 	}
 	/**
 	 * 设置：技能培训标题
@@ -93,6 +103,20 @@ public class TrainInfoDO implements Serializable {
 	 */
 	public String getTrainVideo() {
 		return trainVideo;
+	}
+	
+	public String getTrainVideoUrl() {
+		return trainVideoUrl;
+	}
+	public void setTrainVideoUrl(String trainVideoUrl) {
+		this.trainVideoUrl = trainVideoUrl;
+	}
+	
+	public String getTrainVideoShow() {
+		return trainVideoShow;
+	}
+	public void setTrainVideoShow(String trainVideoShow) {
+		this.trainVideoShow = trainVideoShow;
 	}
 	/**
 	 * 设置：创建时间

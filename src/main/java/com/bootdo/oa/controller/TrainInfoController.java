@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.TextUtils;
 
 import com.bootdo.oa.domain.SchoolEducationDO;
 import com.bootdo.oa.domain.TrainInfoDO;
 import com.bootdo.oa.domain.TrainTypeDO;
 import com.bootdo.oa.service.TrainInfoService;
 import com.bootdo.oa.service.TrainTypeService;
+import com.bootdo.common.config.BootdoConfig;
+import com.bootdo.common.utils.FileType;
+import com.bootdo.common.utils.FileUtil;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -40,10 +45,15 @@ public class TrainInfoController {
 	private TrainInfoService trainInfoService;
 	@Autowired
 	private TrainTypeService trainTypeService;
+	@Autowired
+	private BootdoConfig bootdoConfig;
 	
 	@GetMapping()
 	@RequiresPermissions("oa:trainInfo:trainInfo")
-	String TrainInfo(){
+	String TrainInfo(Model model){
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<TrainTypeDO> trainTypeList = trainTypeService.list(params);
+		model.addAttribute("trainTypeList", trainTypeList);
 	    return "oa/trainInfo/trainInfo";
 	}
 	
@@ -73,6 +83,14 @@ public class TrainInfoController {
 	String edit(@PathVariable("id") Integer id,Model model){
 		TrainInfoDO trainInfo = trainInfoService.get(id);
 		model.addAttribute("trainInfo", trainInfo);
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<TrainTypeDO> trainTypeList = trainTypeService.list(params);
+		for(TrainTypeDO tt : trainTypeList){
+			if(tt.getId()!=null && tt.getId().equals(trainInfo.getFkTypeId())){
+				tt.setSfxz("abc");
+			}
+		}
+		model.addAttribute("trainTypeList", trainTypeList);
 	    return "oa/trainInfo/edit";
 	}
 	
@@ -82,7 +100,52 @@ public class TrainInfoController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("oa:trainInfo:add")
-	public R save( TrainInfoDO trainInfo){
+	public R save(@RequestParam("coverImgFile") MultipartFile coverImgFile,@RequestParam("trainVideoFile") MultipartFile trainVideoFile,TrainInfoDO trainInfo){
+		String fileName = "",fileUrl = "";
+		//技能培训封面
+		if(coverImgFile!=null && !coverImgFile.isEmpty()){
+			fileName = coverImgFile.getOriginalFilename();
+			// 验证文件类型
+			if (FileType.fileType(fileName)!=0) {
+				return R.error(1001, "图片类型错误，请上传图片文件！");
+			}
+			// 最大4m
+			if (coverImgFile.getSize() > (4 * 1024 * 1024)) {
+				return R.error(1002, "图片大小错误，请上传4M大小以内的图片！");
+			}
+			fileName = FileUtil.renameToUUID(fileName);
+			fileUrl =FileUtil.reUrl("trainImg");
+			try {
+				FileUtil.uploadFile(coverImgFile.getBytes(), bootdoConfig.getUploadPath()+fileUrl, fileName);
+			} catch (Exception e) {
+				return R.error();
+			}
+			trainInfo.setCoverImg("/files/"+fileUrl+fileName);
+		}
+		//技能培训视频
+		if(trainVideoFile!=null && !trainVideoFile.isEmpty()){
+			fileName = trainVideoFile.getOriginalFilename();
+			// 验证文件类型
+			if (FileType.fileType(fileName)!=2) {
+				return R.error(1001, "视频类型错误，请上传视频文件！");
+			}
+			// 最大100M
+			if (trainVideoFile.getSize() > (100 * 1024 * 1024)) {
+				return R.error(1002, "视频大小错误，请上传100M大小以内的视频！");
+			}
+			fileName = FileUtil.renameToUUID(fileName);
+			fileUrl =FileUtil.reUrl("trainVideo");
+			try {
+				FileUtil.uploadFile(trainVideoFile.getBytes(), bootdoConfig.getUploadPath()+fileUrl, fileName);
+			} catch (Exception e) {
+				return R.error();
+			}
+			trainInfo.setTrainVideo("/files/"+fileUrl+fileName);
+		} else if(trainInfo.getTrainVideoUrl()!=null && !"".equals(trainInfo.getTrainVideoUrl())){
+			trainInfo.setTrainVideo(trainInfo.getTrainVideoUrl());
+		} else {
+			return R.error(1003, "请上传视频！");
+		}
 		if(trainInfoService.save(trainInfo)>0){
 			return R.ok();
 		}
@@ -94,7 +157,54 @@ public class TrainInfoController {
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("oa:trainInfo:edit")
-	public R update( TrainInfoDO trainInfo){
+	public R update(@RequestParam("coverImgFile") MultipartFile coverImgFile,@RequestParam("trainVideoFile") MultipartFile trainVideoFile,TrainInfoDO trainInfo){
+		String fileName = "",fileUrl = "";
+		//技能培训封面
+		if(coverImgFile!=null && !coverImgFile.isEmpty()){
+			fileName = coverImgFile.getOriginalFilename();
+			// 验证文件类型
+			if (FileType.fileType(fileName)!=0) {
+				return R.error(1001, "图片类型错误，请上传图片文件！");
+			}
+			// 最大4m
+			if (coverImgFile.getSize() > (4 * 1024 * 1024)) {
+				return R.error(1002, "图片大小错误，请上传4M大小以内的图片！");
+			}
+			fileName = FileUtil.renameToUUID(fileName);
+			fileUrl =FileUtil.reUrl("trainImg");
+			try {
+				FileUtil.uploadFile(coverImgFile.getBytes(), bootdoConfig.getUploadPath()+fileUrl, fileName);
+			} catch (Exception e) {
+				return R.error();
+			}
+			trainInfo.setCoverImg("/files/"+fileUrl+fileName);
+		}
+		//技能培训视频
+		if(trainVideoFile!=null && !trainVideoFile.isEmpty()){
+			fileName = trainVideoFile.getOriginalFilename();
+			// 验证文件类型
+			if (FileType.fileType(fileName)!=2) {
+				return R.error(1001, "视频类型错误，请上传视频文件！");
+			}
+			// 最大100M
+			if (trainVideoFile.getSize() > (100 * 1024 * 1024)) {
+				return R.error(1002, "视频大小错误，请上传100M大小以内的视频！");
+			}
+			fileName = FileUtil.renameToUUID(fileName);
+			fileUrl =FileUtil.reUrl("trainVideo");
+			try {
+				FileUtil.uploadFile(trainVideoFile.getBytes(), bootdoConfig.getUploadPath()+fileUrl, fileName);
+			} catch (Exception e) {
+				return R.error();
+			}
+			trainInfo.setTrainVideo("/files/"+fileUrl+fileName);
+		} else if(trainInfo.getTrainVideoUrl()!=null && !"".equals(trainInfo.getTrainVideoUrl())){
+			trainInfo.setTrainVideo(trainInfo.getTrainVideoUrl());
+		} else if(trainInfo.getTrainVideoShow()!=null && !"".equals(trainInfo.getTrainVideoShow())){
+			trainInfo.setTrainVideo(trainInfo.getTrainVideoShow());
+		} else {
+			return R.error(1003, "请上传视频！");
+		}
 		trainInfoService.update(trainInfo);
 		return R.ok();
 	}

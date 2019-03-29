@@ -42,7 +42,11 @@ public class SchoolEducationInfoController {
 	
 	@GetMapping()
 	@RequiresPermissions("oa:schoolEducationInfo:schoolEducationInfo")
-	String SchoolEducationInfo(){
+	String SchoolEducationInfo(Model model){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("level", 1);
+		List<SchoolEducationDO> schoolEducationList = schoolEducationService.list(params);
+		model.addAttribute("schoolEducationList", schoolEducationList);
 	    return "oa/schoolEducationInfo/schoolEducationInfo";
 	}
 	

@@ -19,6 +19,7 @@ public class NoticeInfoDO implements Serializable {
 	private Integer id;
 	//通知公告类型ID
 	private Integer fkTypeId;
+	private String fkType;
 	//通知公告标题
 	private String title;
 	//通知公告内容
@@ -53,6 +54,13 @@ public class NoticeInfoDO implements Serializable {
 	 */
 	public Integer getFkTypeId() {
 		return fkTypeId;
+	}
+	
+	public String getFkType() {
+		return fkType;
+	}
+	public void setFkType(String fkType) {
+		this.fkType = fkType;
 	}
 	/**
 	 * 设置：通知公告标题

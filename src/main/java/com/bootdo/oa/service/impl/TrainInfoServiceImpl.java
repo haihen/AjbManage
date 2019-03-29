@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.oa.dao.TrainInfoDao;
 import com.bootdo.oa.domain.TrainInfoDO;
 import com.bootdo.oa.service.TrainInfoService;
+import com.bootdo.system.domain.UserDO;
 
 
 
@@ -34,6 +36,8 @@ public class TrainInfoServiceImpl implements TrainInfoService {
 	
 	@Override
 	public int save(TrainInfoDO trainInfo){
+		UserDO u = ShiroUtils.getUser();
+		trainInfo.setCreateUser(u.getUsername());
 		return trainInfoDao.save(trainInfo);
 	}
 	

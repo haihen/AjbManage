@@ -21,6 +21,10 @@ $.validator.setDefaults({
 });
 function update() {
 	var content_sn = $("#content_sn").summernote('code');
+	if(content_sn=='<br>'||content_sn=='<p><br></p>'||content_sn==null||content_sn==''){
+		parent.layer.alert("请填写文章内容");
+		return;
+	}
 	$("#context").val(content_sn);
 	$.ajax({
 		cache : true,

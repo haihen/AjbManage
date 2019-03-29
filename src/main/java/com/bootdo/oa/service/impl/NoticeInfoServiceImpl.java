@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.oa.dao.NoticeInfoDao;
 import com.bootdo.oa.domain.NoticeInfoDO;
 import com.bootdo.oa.service.NoticeInfoService;
+import com.bootdo.system.domain.UserDO;
 
 
 
@@ -34,6 +36,8 @@ public class NoticeInfoServiceImpl implements NoticeInfoService {
 	
 	@Override
 	public int save(NoticeInfoDO noticeInfo){
+		UserDO u = ShiroUtils.getUser();
+		noticeInfo.setCreateUser(u.getUsername());
 		return noticeInfoDao.save(noticeInfo);
 	}
 	

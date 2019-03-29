@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.oa.dao.NoticeInfoDao">
 
 	<select id="get" resultType="com.bootdo.oa.domain.NoticeInfoDO">
-		select `id`,`fk_type_id`,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_notice_info where id = #{value} and is_deleted = 0
+		select `id`,`fk_type_id`,(select wnt.type from web_notice_type wnt where wnt.is_deleted = 0 and wnt.id = wni.fk_type_id) fkType,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_notice_info wni where id = #{value} and is_deleted = 0
 	</select>
 
 	<select id="list" resultType="com.bootdo.oa.domain.NoticeInfoDO">
-		select `id`,`fk_type_id`,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_notice_info
+		select `id`,`fk_type_id`,(select wnt.type from web_notice_type wnt where wnt.is_deleted = 0 and wnt.id = wni.fk_type_id) fkType,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_notice_info wni
         <where>  
          and is_deleted = 0
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>

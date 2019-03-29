@@ -9,18 +9,21 @@ $.validator.setDefaults({
 });
 function save() {
 	var video1,video2;
-	video1 = $("#trainVideo").val();
+	video1 = $("#trainVideoFile").val();
 	video2 = $("#trainVideoUrl").val();
 	if(!video1 && !video2){
 		parent.layer.alert("请选择技能培训视频");
 		return;
 	}
+	var formData = new FormData($('#signupForm')[0]);
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/oa/trainInfo/save",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : formData,// 你的formid
 		async : false,
+		processData : false,
+        contentType: false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
 		},

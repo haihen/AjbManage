@@ -1,5 +1,6 @@
 package com.bootdo.oa.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bootdo.oa.domain.ActivityTypeDO;
 import com.bootdo.oa.domain.NoticeInfoDO;
+import com.bootdo.oa.domain.NoticeTypeDO;
 import com.bootdo.oa.service.NoticeInfoService;
+import com.bootdo.oa.service.NoticeTypeService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -34,10 +38,15 @@ import com.bootdo.common.utils.R;
 public class NoticeInfoController {
 	@Autowired
 	private NoticeInfoService noticeInfoService;
+	@Autowired
+	private NoticeTypeService noticeTypeService;
 	
 	@GetMapping()
 	@RequiresPermissions("oa:noticeInfo:noticeInfo")
-	String NoticeInfo(){
+	String NoticeInfo(Model model){
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<NoticeTypeDO> noticeTypeList = noticeTypeService.list(params);
+		model.addAttribute("noticeTypeList", noticeTypeList);
 	    return "oa/noticeInfo/noticeInfo";
 	}
 	
@@ -55,7 +64,10 @@ public class NoticeInfoController {
 	
 	@GetMapping("/add")
 	@RequiresPermissions("oa:noticeInfo:add")
-	String add(){
+	String add(Model model){
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<NoticeTypeDO> noticeTypeList = noticeTypeService.list(params);
+		model.addAttribute("noticeTypeList", noticeTypeList);
 	    return "oa/noticeInfo/add";
 	}
 
@@ -64,6 +76,14 @@ public class NoticeInfoController {
 	String edit(@PathVariable("id") Integer id,Model model){
 		NoticeInfoDO noticeInfo = noticeInfoService.get(id);
 		model.addAttribute("noticeInfo", noticeInfo);
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<NoticeTypeDO> noticeTypeList = noticeTypeService.list(params);
+		for(NoticeTypeDO nt : noticeTypeList){
+			if(nt.getId()!=null && nt.getId().equals(noticeInfo.getFkTypeId())){
+				nt.setSfxz("abc");
+			}
+		}
+		model.addAttribute("noticeTypeList", noticeTypeList);
 	    return "oa/noticeInfo/edit";
 	}
 	

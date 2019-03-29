@@ -21,6 +21,8 @@ public class ActivityTypeDO implements Serializable {
 	private String type;
 	//
 	private Integer isDeleted;
+	
+	private String sfxz;
 
 	/**
 	 * 设置：
@@ -57,5 +59,11 @@ public class ActivityTypeDO implements Serializable {
 	 */
 	public Integer getIsDeleted() {
 		return isDeleted;
+	}
+	public String getSfxz() {
+		return sfxz;
+	}
+	public void setSfxz(String sfxz) {
+		this.sfxz = sfxz;
 	}
 }

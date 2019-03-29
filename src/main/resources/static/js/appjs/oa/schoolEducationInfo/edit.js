@@ -57,7 +57,7 @@ function update() {
 		return;
 	}
 	var content_sn = $("#content_sn").summernote('code');
-	if(content_sn=='<p><br></p>'||content_sn==null||content_sn==''){
+	if(content_sn=='<br>'||content_sn=='<p><br></p>'||content_sn==null||content_sn==''){
 		parent.layer.alert("请填写学历教育内容");
 		return;
 	}

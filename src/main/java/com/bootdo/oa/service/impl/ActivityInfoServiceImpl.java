@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.oa.dao.ActivityInfoDao;
 import com.bootdo.oa.domain.ActivityInfoDO;
 import com.bootdo.oa.service.ActivityInfoService;
+import com.bootdo.system.domain.UserDO;
 
 
 
@@ -34,6 +36,8 @@ public class ActivityInfoServiceImpl implements ActivityInfoService {
 	
 	@Override
 	public int save(ActivityInfoDO activityInfo){
+		UserDO u = ShiroUtils.getUser();
+		activityInfo.setCreateUser(u.getUsername());
 		return activityInfoDao.save(activityInfo);
 	}
 	

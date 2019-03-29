@@ -1,5 +1,6 @@
 package com.bootdo.oa.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bootdo.oa.domain.ActivityInfoDO;
+import com.bootdo.oa.domain.ActivityTypeDO;
+import com.bootdo.oa.domain.SchoolEducationDO;
 import com.bootdo.oa.service.ActivityInfoService;
+import com.bootdo.oa.service.ActivityTypeService;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -34,10 +38,15 @@ import com.bootdo.common.utils.R;
 public class ActivityInfoController {
 	@Autowired
 	private ActivityInfoService activityInfoService;
+	@Autowired
+	private ActivityTypeService activityTypeService;
 	
 	@GetMapping()
 	@RequiresPermissions("oa:activityInfo:activityInfo")
-	String ActivityInfo(){
+	String ActivityInfo(Model model){
+		Map<String, Object> params2 = new HashMap<String, Object>();
+		List<ActivityTypeDO> activityTypeList = activityTypeService.list(params2);
+		model.addAttribute("activityTypeList", activityTypeList);
 	    return "oa/activityInfo/activityInfo";
 	}
 	
@@ -55,7 +64,10 @@ public class ActivityInfoController {
 	
 	@GetMapping("/add")
 	@RequiresPermissions("oa:activityInfo:add")
-	String add(){
+	String add(Model model){
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<ActivityTypeDO> activityTypeList = activityTypeService.list(params);
+		model.addAttribute("activityTypeList", activityTypeList);
 	    return "oa/activityInfo/add";
 	}
 
@@ -64,6 +76,14 @@ public class ActivityInfoController {
 	String edit(@PathVariable("id") Integer id,Model model){
 		ActivityInfoDO activityInfo = activityInfoService.get(id);
 		model.addAttribute("activityInfo", activityInfo);
+		Map<String, Object> params = new HashMap<String, Object>();
+		List<ActivityTypeDO> activityTypeList = activityTypeService.list(params);
+		for(ActivityTypeDO at : activityTypeList){
+			if(at.getId()!=null && at.getId().equals(activityInfo.getFkTypeId())){
+				at.setSfxz("abc");
+			}
+		}
+		model.addAttribute("activityTypeList", activityTypeList);
 	    return "oa/activityInfo/edit";
 	}
 	

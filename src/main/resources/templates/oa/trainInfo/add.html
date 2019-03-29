@@ -8,7 +8,7 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<form class="form-horizontal m-t" id="signupForm">
+						<form class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data">
 							<div class="form-group">	
 								<label class="col-sm-3 control-label">技能培训类型：</label>
 								<div class="col-sm-8">
@@ -29,7 +29,7 @@
 								<label class="col-sm-3 control-label">技能培训封面：</label>
 								<div class="col-sm-8">
 									<!-- <input id="coverImg" name="coverImg" class="form-control" type="text"> -->
-									<input id="coverImg" name="coverImg" class="form-control" type="file">
+									<input id="coverImgFile" name="coverImgFile" class="form-control" type="file">
 								</div>
 							</div>
 							<div class="form-group">
@@ -52,7 +52,7 @@
 								<label class="col-sm-3 control-label">技能培训本地视频：</label>
 								<div class="col-sm-8">
 									<!-- <input id="trainVideo" name="trainVideo" class="form-control" type="text"> -->
-									<input id="trainVideo" name="trainVideo" class="form-control" type="file">
+									<input id="trainVideoFile" name="trainVideoFile" class="form-control" type="file">
 								</div>
 							</div>
 							<div id="online" class="form-group" style="display:none;">	
@@ -78,17 +78,17 @@
 	</script>
 	<script type="text/javascript">
 		$(function () {
-			$("#coverImg").change(function () {
-				var coverImg = $("#coverImg").val();
+			$("#coverImgFile").change(function () {
+				var coverImg = $("#coverImgFile").val();
 				if (!$.trim(coverImg)) {
 					return;
 				}
 				var i = coverImg.lastIndexOf('.');
 				var len = coverImg.length;
 				var str = coverImg.substring(len, i + 1);
-				var extName = "JPG,JPEG,PNG";
+				var extName = "BMP,JPG,JPEG,PNG,TIFF,GIF,PCX,TGA,EXIF,FPX,SVG,PSD,CDR,PCD,DXF,UFO,EPS,AI,RAW,WMF";
 				if (extName.indexOf(str.toUpperCase()) < 0) {
-					alert("请上传图片!");
+					alert("请上传图片文件!");
 					return;
 				}
 				
@@ -110,18 +110,18 @@
 			 }
 	
 		  });
-			$("#trainVideo").change(function () {
-				var trainVideo = $("#trainVideo").val();
+			$("#trainVideoFile").change(function () {
+				var trainVideo = $("#trainVideoFile").val();
 				if (!$.trim(trainVideo)) {
 					return;
 				}
 				var i = trainVideo.lastIndexOf('.');
 				var len = trainVideo.length;
 				var str = trainVideo.substring(len, i + 1);
-				var extName = "AVI,RMVB,RM,ASF,DIVX,MPG,MPEG,MPE,WMV,MP4,MKV,VOB";
+				var extName = "MP4,AVI,MOV,WMV,ASF,NAVI,3GP,MKV,F4V,RMVB,WEBM";
 				if (extName.indexOf(str.toUpperCase()) < 0) {
-					alert("请上传视频!");
-					$("#trainVideo").val('');
+					alert("请上传视频文件!");
+					$("#trainVideoFile").val('');
 					return;
 				}
 	

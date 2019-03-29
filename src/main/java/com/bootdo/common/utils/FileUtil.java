@@ -2,6 +2,7 @@ package com.bootdo.common.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 import java.util.UUID;
 
 public class FileUtil {
@@ -33,5 +34,15 @@ public class FileUtil {
 
 	public static String renameToUUID(String fileName) {
 		return UUID.randomUUID() + "." + fileName.substring(fileName.lastIndexOf(".") + 1);
+	}
+	
+	public static String reUrl(String type) {
+		String path = "";
+		Calendar cal = Calendar.getInstance();
+		String year = cal.get(Calendar.YEAR) + "";
+		String month = (cal.get(Calendar.MONTH) + 1) + "";
+		String day = cal.get(Calendar.DAY_OF_MONTH) + "";
+		path = "images/" + type + "/" + year + "/" + month + "/" + day + "/";
+		return path;
 	}
 }

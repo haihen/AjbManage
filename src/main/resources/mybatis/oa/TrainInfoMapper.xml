@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.oa.dao.TrainInfoDao">
 
 	<select id="get" resultType="com.bootdo.oa.domain.TrainInfoDO">
-		select `id`,`fk_type_id`,`title`,`cover_img`,`train_video`,`create_time`,`create_user`,`browse_count`,`is_deleted` from web_train_info where id = #{value} and is_deleted = 0
+		select `id`,`fk_type_id`,(select wtt.type from web_train_type wtt where wtt.is_deleted = 0 and wtt.id = wti.fk_type_id) fkType,`title`,`cover_img`,`train_video`,`create_time`,`create_user`,`browse_count`,`is_deleted` from web_train_info wti where id = #{value} and is_deleted = 0
 	</select>
 
 	<select id="list" resultType="com.bootdo.oa.domain.TrainInfoDO">
-		select `id`,`fk_type_id`,`title`,`cover_img`,`train_video`,`create_time`,`create_user`,`browse_count`,`is_deleted` from web_train_info
+		select `id`,`fk_type_id`,(select wtt.type from web_train_type wtt where wtt.is_deleted = 0 and wtt.id = wti.fk_type_id) fkType,`title`,`cover_img`,`train_video`,`create_time`,`create_user`,`browse_count`,`is_deleted` from web_train_info wti
         <where> 
          and is_deleted = 0 
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>

@@ -8,12 +8,26 @@ $.validator.setDefaults({
 	}
 });
 function update() {
+	var video1,video2,videoType;
+	videoType = $("#videoType").val();
+	video1 = $("#trainVideoFile").val();
+	video2 = $("#trainVideoUrl").val();
+	if(videoType){
+		if(!video1 && !video2){
+			parent.layer.alert("请选择技能培训视频");
+			return;
+		}
+	}
+	var formData = new FormData($('#signupForm')[0]);
+	console.log($('#signupForm').serialize());
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/oa/trainInfo/update",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : formData,// 你的formid
 		async : false,
+		processData : false,
+        contentType: false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
 		},
@@ -36,14 +50,12 @@ function validateRule() {
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
-			name : {
-				required : true
-			}
+			fkTypeId : "required",
+			title : "required"
 		},
 		messages : {
-			name : {
-				required : icon + "请输入名字"
-			}
+			fkTypeId : "请选择技能培训类型",
+			title : "请填写技能培训标题"
 		}
 	})
 }

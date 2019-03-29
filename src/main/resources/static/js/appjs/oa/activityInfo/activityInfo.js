@@ -32,8 +32,8 @@ function load() {
 							return {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
-								offset:params.offset
-					           // name:$('#searchName').val(),
+								offset:params.offset,
+								fkTypeId:$('#fkTypeId').val()
 					           // username:$('#searchName').val()
 							};
 						},
@@ -45,23 +45,12 @@ function load() {
 						// 返回false将会终止请求
 						columns : [
 								{
-									checkbox : true
-								},
-																{
-									field : 'id', 
-									title : '' 
-								},
-																{
-									field : 'fkTypeId', 
-									title : '特色活动类型ID' 
+									field : 'fkType', 
+									title : '特色活动类型' 
 								},
 																{
 									field : 'title', 
 									title : '特色活动标题' 
-								},
-																{
-									field : 'context', 
-									title : '特色活动内容' 
 								},
 																{
 									field : 'createTime', 
@@ -70,10 +59,6 @@ function load() {
 																{
 									field : 'createUser', 
 									title : '特色活动创建人' 
-								},
-																{
-									field : 'isDeleted', 
-									title : '' 
 								},
 																{
 									title : '操作',
@@ -103,7 +88,7 @@ function add() {
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '1000px', '650px' ],
 		content : prefix + '/add' // iframe的url
 	});
 }
@@ -113,7 +98,7 @@ function edit(id) {
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
-		area : [ '800px', '520px' ],
+		area : [ '1000px', '650px' ],
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }

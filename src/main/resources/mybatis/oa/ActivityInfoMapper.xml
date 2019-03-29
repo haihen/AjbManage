@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.oa.dao.ActivityInfoDao">
 
 	<select id="get" resultType="com.bootdo.oa.domain.ActivityInfoDO">
-		select `id`,`fk_type_id`,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_activity_info where id = #{value} and is_deleted = 0
+		select `id`,`fk_type_id`,(select wat.type from web_activity_type wat where wat.is_deleted = 0 and wat.id = wai.fk_type_id) fkType,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_activity_info wai where id = #{value} and is_deleted = 0
 	</select>
 
 	<select id="list" resultType="com.bootdo.oa.domain.ActivityInfoDO">
-		select `id`,`fk_type_id`,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_activity_info
+		select `id`,`fk_type_id`,(select wat.type from web_activity_type wat where wat.is_deleted = 0 and wat.id = wai.fk_type_id) fkType,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_activity_info wai
         <where> 
         and is_deleted = 0 
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
