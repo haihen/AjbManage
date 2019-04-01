@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 /** 
  * 拦截防止xss注入
  * 通过Jsoup过滤请求参数内的特定字符
- * @author yangwk 
  */  
 public class XssFilter implements Filter {  
 	private static Logger logger = LoggerFactory.getLogger(XssFilter.class);
@@ -44,7 +43,7 @@ public class XssFilter implements Filter {
   		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
   		if(handleExcludeURL(req, resp)){
-  			filterChain.doFilter(request, response);
+//  			filterChain.doFilter(request, response);
 			return;
 		}
   		
@@ -58,14 +57,20 @@ public class XssFilter implements Filter {
 			return false;
 		}
 
-		String url = request.getServletPath();
-		for (String pattern : excludes) {
-			Pattern p = Pattern.compile("^" + pattern);
-			Matcher m = p.matcher(url);
-			if (m.find()) {
-				return true;
-			}
+		String url = request.getRequestURI()+request.getQueryString();
+		System.out.println("%%%%%%%%%%%%%%%%%%"+url);
+		if(url.indexOf("alert")>-1||url.indexOf("confirm")>-1||url.indexOf("onerror")>-1||url.indexOf("script")>-1||
+		url.indexOf("textarea")>-1||url.indexOf("onload")>-1||url.indexOf("expression")>-1||url.indexOf("eval")>-1||url.indexOf("src[")>-1){
+			return true;
 		}
+//		for (String pattern : excludes) {
+//			Pattern p = Pattern.compile("^" + pattern);
+//			Matcher m = p.matcher(url);
+//			if (m.find()) {
+//				System.out.println("111111122222222222");
+//				return true;
+//			}
+//		}
 
 		return false;
 	}

@@ -31,6 +31,10 @@ public class NoticeInfoDO implements Serializable {
 	//
 	private Integer isDeleted;
 
+	private String beforeId ;
+	private String beforeTitle;
+	private String afterId;
+	private String afterTitle;
 	/**
 	 * 设置：
 	 */
@@ -122,4 +126,29 @@ public class NoticeInfoDO implements Serializable {
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}
+	public String getBeforeId() {
+		return beforeId;
+	}
+	public void setBeforeId(String beforeId) {
+		this.beforeId = beforeId;
+	}
+	public String getBeforeTitle() {
+		return beforeTitle;
+	}
+	public void setBeforeTitle(String beforeTitle) {
+		this.beforeTitle = beforeTitle;
+	}
+	public String getAfterId() {
+		return afterId;
+	}
+	public void setAfterId(String afterId) {
+		this.afterId = afterId;
+	}
+	public String getAfterTitle() {
+		return afterTitle;
+	}
+	public void setAfterTitle(String afterTitle) {
+		this.afterTitle = afterTitle;
+	}
+	
 }

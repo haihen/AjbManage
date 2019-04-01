@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import com.bootdo.common.utils.xss.JsoupUtil;
+
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -14,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {  
     HttpServletRequest orgRequest = null;  
     private boolean isIncludeRichText = false;
+    // html过滤
+    private final static HTMLFilter htmlFilter = new HTMLFilter();
   
     public XssHttpServletRequestWrapper(HttpServletRequest request, boolean isIncludeRichText) {  
         super(request);  
@@ -28,6 +32,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     */  
     @Override  
     public String getParameter(String name) {
+    	System.out.println("content::::::::::::111");
         Boolean flag = ("content".equals(name) || name.endsWith("WithHtml"));
         if( flag && !isIncludeRichText){
             return super.getParameter(name);
@@ -42,6 +47,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     
     @Override
     public String[] getParameterValues(String name) {
+    	System.out.println("content::::::::::::222");
     	String[] arr = super.getParameterValues(name);
     	if(arr != null){
     		for (int i=0;i<arr.length;i++) {
@@ -59,13 +65,19 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     */  
     @Override  
     public String getHeader(String name) {  
+    	System.out.println("abc::::::::::::"+name);
         name = JsoupUtil.clean(name);
         String value = super.getHeader(name);  
         if (StringUtils.isNotBlank(value)) {  
             value = JsoupUtil.clean(value); 
+            value = xssEncode(value);
         }  
-        return value;  
+        return StringEscapeUtils.unescapeHtml(value);  
     }  
+    
+    private String xssEncode(String input) {
+        return htmlFilter.filter(input);
+    }
   
     /** 
     * 获取最原始的request 

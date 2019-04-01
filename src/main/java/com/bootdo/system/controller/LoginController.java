@@ -10,6 +10,8 @@ import com.bootdo.common.utils.*;
 import com.bootdo.system.domain.MenuDO;
 import com.bootdo.system.service.MenuService;
 import io.swagger.models.auth.In;
+
+import org.apache.http.util.TextUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -42,7 +44,7 @@ public class LoginController extends BaseController {
     @GetMapping({"/", ""})
     String welcome(Model model) {
 
-        return "redirect:/blog";
+        return "redirect:/login";
     }
 
     @Log("请求访问主页")
@@ -66,7 +68,10 @@ public class LoginController extends BaseController {
     }
 
     @GetMapping("/login")
-    String login(Model model) {
+    String login(String xqmanageKey,Model model) {
+    	if(TextUtils.isEmpty(xqmanageKey) || !"@xqdd@abc@123".equals(xqmanageKey)){
+    		return "error/404";
+    	}
         model.addAttribute("username", bootdoConfig.getUsername());
         model.addAttribute("password", bootdoConfig.getPassword());
         return "login";
@@ -80,6 +85,9 @@ public class LoginController extends BaseController {
         try {
             //从session中获取随机数
             String random = (String) request.getSession().getAttribute(RandomValidateCodeUtil.RANDOMCODEKEY);
+            if(StringUtils.isBlank(random)){
+            	return R.error("验证码已过期");
+            }
             if (StringUtils.isBlank(verify)) {
                 return R.error("请输入验证码");
             }
@@ -104,8 +112,8 @@ public class LoginController extends BaseController {
 
     @GetMapping("/logout")
     String logout() {
-        ShiroUtils.logout();
-        return "redirect:/login";
+//        ShiroUtils.logout();
+        return "redirect:/login?xqmanageKey=@xqdd@abc@123";
     }
 
     @GetMapping("/main")

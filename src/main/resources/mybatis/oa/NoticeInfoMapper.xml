@@ -45,6 +45,18 @@
 		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
 		  		</where>
 	</select>
+	
+	<select id="getAdjacent" parameterType="com.bootdo.oa.domain.NoticeInfoDO" resultType="com.bootdo.oa.domain.NoticeInfoDO">
+		SELECT
+		     ( SELECT id FROM web_notice_info WHERE create_time &gt; ( SELECT create_time FROM web_notice_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeId,
+		     ( SELECT title FROM web_notice_info WHERE create_time &gt; ( SELECT create_time FROM web_notice_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeTitle,
+		     ( SELECT id FROM web_notice_info WHERE create_time &lt; ( SELECT create_time FROM web_notice_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time DESC limit 1)as afterId,
+		     ( SELECT title FROM web_notice_info WHERE create_time &lt; ( SELECT create_time FROM web_notice_info WHERE id = #{id})and is_deleted = 0 ORDER BY create_time DESC limit 1) as afterTitle
+	    FROM
+	        web_notice_info 
+	    WHERE
+	        id = #{id}
+    </select>
 	 
 	<insert id="save" parameterType="com.bootdo.oa.domain.NoticeInfoDO">
 		insert into web_notice_info

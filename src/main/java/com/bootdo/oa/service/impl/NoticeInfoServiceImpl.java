@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.oa.dao.NoticeInfoDao;
+import com.bootdo.oa.domain.ActivityInfoDO;
 import com.bootdo.oa.domain.NoticeInfoDO;
 import com.bootdo.oa.service.NoticeInfoService;
 import com.bootdo.system.domain.UserDO;
@@ -22,6 +23,11 @@ public class NoticeInfoServiceImpl implements NoticeInfoService {
 	@Override
 	public NoticeInfoDO get(Integer id){
 		return noticeInfoDao.get(id);
+	}
+	
+	@Override
+	public NoticeInfoDO getAdjacent(Integer id){
+		return noticeInfoDao.getAdjacent(id);
 	}
 	
 	@Override

@@ -15,14 +15,14 @@ public class XssConfig{
 	 * xss过滤拦截器
 	 */
 	@Bean
-	public FilterRegistrationBean xssFilterRegistrationBean() {
-		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+	public FilterRegistrationBean<XssFilter> xssFilterRegistrationBean() {
+		FilterRegistrationBean<XssFilter> filterRegistrationBean = new FilterRegistrationBean<XssFilter>();
 		filterRegistrationBean.setFilter(new XssFilter());
 		filterRegistrationBean.setOrder(1);
-		filterRegistrationBean.setEnabled(false);
+		filterRegistrationBean.setEnabled(true);
 		filterRegistrationBean.addUrlPatterns("/*");
 		Map<String, String> initParameters = Maps.newHashMap();
-		initParameters.put("excludes", "/favicon.ico,/img/*,/js/*,/css/*");
+		initParameters.put("excludes", "/home/*,/favicon.ico,/img/*,/js/*,/css/*");
 		initParameters.put("isIncludeRichText", "true");
 		filterRegistrationBean.setInitParameters(initParameters);
 		return filterRegistrationBean;

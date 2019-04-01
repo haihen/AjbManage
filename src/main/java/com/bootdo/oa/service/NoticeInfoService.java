@@ -16,6 +16,8 @@ public interface NoticeInfoService {
 	
 	NoticeInfoDO get(Integer id);
 	
+	NoticeInfoDO getAdjacent(Integer id);
+	
 	List<NoticeInfoDO> list(Map<String, Object> map);
 	
 	int count(Map<String, Object> map);

@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>天津西青老年门户</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/home/css/global.css"  type="text/css" rel="stylesheet" />
+    <link href="/home/css/erjiye.css" type="text/css" rel="stylesheet" />
+    <link href="/home/css/layui.css" type="text/css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+<div class="box">
+    <div class="header">
+        <div class="logo">
+            <a title="老年人学习网" href="/home/lnjy">老年人学习网</a>
+        </div>
+        <div class="login">
+            <a class="retN" style="color:#F0F8FF;margin-right:20px;" href="/home" >返回首页</a>
+        </div>
+    </div>
+    <div class="mian">
+        <div class="mainleft">
+            <ul>
+                <li>
+                    <a href="/home/lnjy_zxzx">资讯中心</a>
+                </li>
+                <#if type == "健康养生">
+				<li class="cur">
+				<#else>
+				<li>
+				</#if>
+                    <a href="/home/lnjy_other?type=健康养生">健康养生</a>
+                </li>
+                <#if type == "快乐生活">
+				<li class="cur">
+				<#else>
+				<li>
+				</#if>
+                    <a href="/home/lnjy_other?type=快乐生活" >快乐生活</a>
+                </li>
+                <#if type == "隔代教育">
+				<li class="cur">
+				<#else>
+				<li>
+				</#if>
+                    <a href="/home/lnjy_other?type=隔代教育">隔代教育</a>
+                </li>
+                <#if type == "家庭理财">
+				<li class="cur">
+				<#else>
+				<li>
+				</#if>
+                    <a href="/home/lnjy_other?type=家庭理财">家庭理财</a>
+                </li>
+                <#if type == "法律维权">
+				<li class="cur">
+				<#else>
+				<li>
+				</#if>
+                    <a href="/home/lnjy_other?type=法律维权">法律维权</a>
+                </li>
+            </ul>
+        </div>
+        <div class="mainright">
+            <div class="piclist">
+                <ul class="clearfix" id="jkys">
+                	<#list otherList as other>
+					<li>
+                    	<a title="${other.title}" onclick='dj(${other.id})'>
+                        <img src="" width='300px' height='200px' /></a>
+                   		<p><a title="${other.title}" onclick='dj(${other.title})'>${other.title}</a></p>
+                    </li>
+                    </#list>
+					<input id='countHide' type="hidden" value="${count}">
+					<input id='offsetHide' type="hidden" value="${offset}">
+                </ul>
+                <#if (otherList?size=0)>
+                    <div class="nodata">暂无数据</div>
+                </#if>
+                <!--分页-->
+                <div class="pageDiv" style="margin-left: 40%;margin-top: 20%;"></div>
+                <!--分页end-->
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+</div>
+
+    <script type="text/javascript" src="/home/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/home/js/dateUtil.js"></script>
+    <script src="/home/js/layui.js"></script>
+    <script src="/home/js/laypage.js"></script>
+    <script type="text/javascript">
+	    $(function () {
+	    	
+	        var count=$('#countHide').val();
+	        var offset=$('#offsetHide').val();
+	        //当前看的是第几页
+	         var pageNums=Math.ceil(offset/4)+1;
+	        //向上取整，获取总页数
+	        var pageSize=Math.ceil(count/4);
+	        var pageHtml='<a href="/home/lnjy_zxzx_list?type=${type}&offset=0"><div class="page_on" style="width: 60px;">首页</div></a>';
+	        for(var i=1;i<=pageSize;i++){
+	        	
+	        	if(i==pageNums){
+	        		pageHtml+='<a href="/home/lnjy_zxzx_list?type=${type}&offset='+(i-1)*4+'"><div class="page_on">'+i+'</div></a>';
+	        	}else{
+	        		pageHtml+='<a href="/home/lnjy_zxzx_list?type=${type}&offset='+(i-1)*4+'"><div>'+i+'</div></a>';
+	        	}
+	        }
+	        //pageHtml+='<span style="line-height: 30px;">...</span>'; 
+	        pageHtml+='<a href="/home/lnjy_zxzx_list?type=${type}&offset='+(pageSize-1)*4+'"><div class="page_on" style="width: 60px;">末页</div></a>';
+	        
+	       	$('.pageDiv').html(pageHtml);
+	       	console.log(pageSize);
+	       	console.log(pageNums);
+	    });
+	    
+	    function dj(id){
+	        window.location.href="lnjy_jkys_xq.html?id="+id;
+	    }
+	</script>
+
+</body>
+</html>

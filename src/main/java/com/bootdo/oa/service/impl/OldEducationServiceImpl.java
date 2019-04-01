@@ -25,6 +25,11 @@ public class OldEducationServiceImpl implements OldEducationService {
 	}
 	
 	@Override
+	public OldEducationDO getAdjacent(Integer id){
+		return oldEducationDao.getAdjacent(id);
+	}
+	
+	@Override
 	public List<OldEducationDO> list(Map<String, Object> map){
 		return oldEducationDao.list(map);
 	}

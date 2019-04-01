@@ -1,0 +1,94 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{ background:#FFF url("/images/bd_bj-77ce75652726c48a92ab5d5075de0bbf.png") no-repeat no-repeat center top; height:1080px;}
+.box{ width:1000px; margin:0 auto;}
+.header{ width:1000px; font-family:SimSun; color:#FFF; font-weight:bold; margin:0 auto; padding:147px 0 0 0;}
+.logo{ font-size:32px;}
+.login{ font-size:28px;}
+.login_before a{ color:#FFF; margin-left:15px;}
+
+.main{ width:1000px; margin:54px auto 0 auto;}
+.column{ margin:0 0 0 -10px;}
+.column li{ width:240px; height:200px; float:left; background:#ccc; margin:0 0 10px 10px;}
+.column li a.content{ display:block; width:240px; height:200px;}
+.column li h3{ height:40px; line-height:40px; padding:10px 20px; font-size:28px; color:#FFF;}
+.column li .arrow{ background:url("/images/arrow_ico-9c0c48b66c064cb96d70f52faabecd90.png") no-repeat; margin:5px auto 0;}
+
+.column li.infor{ background:#c5625d;}
+.column li.infor .arrow{ background-position:0 0; width:70px; height:70px;}
+
+.column li.culture{ background:#0c65b5;}
+.column li.culture .arrow{ background-position:-80px 0; width:85px; height:71px;}
+
+.column li.every{ background:#6a75d1;}
+.column li.every .arrow{ background-position:0 -80px; width:85px; height:70px;}
+
+.column li.nology{ background:#b352a3;}
+.column li.nology .arrow{ background-position:-90px -80px; width:71px; height:71px;}
+
+.column li.family{ background:#c5625d;}
+.column li.family .arrow{ background-position:0 -160px; width:71px; height:71px;}
+
+.column li.heart{ background:#a0c750;}
+.column li.heart .arrow{ background-position:-80px -160px; width:90px; height:78px;}
+
+.column li.keeping{ background:#47afe6;}
+.column li.keeping .arrow{ background-position:-180px -160px; width:89px; height:81px;}
+
+.column li.law{ background:#a9911e;}
+.column li.law .arrow{ background-position:-280px -160px; width:96px; height:82px;}
+
+
+
+.column li.search{ width:500px; background:#47afe6 url("../images/sear_tit.png") no-repeat 12px center;}
+.column li.banner{ width:500px;}
+
+.sear_content{ padding:18px 0 0 84px;}
+.sear_top{ height:36px;}
+.sear_top a{ width:116px; height:30px; line-height:30px; float:left; font-size:15px; text-align:center; color:#FFF; border-radius:5px; margin-left:25px; position:relative;}
+.sear_top a.current{ background:#0c6ab8;}
+.sear_top a.current .icons{ position:absolute; background:url("../images/row-a.png") no-repeat; width:16px; height:7px; left:50%; bottom:-6px; margin-left:-8px;}
+.sear_center{ width:406px; height:40px; margin-top:9px;}
+.sear_center .fidtext{ width:300px; height:20px; padding:10px 9px; float:left; border:0; background:#FFF; font:14px/20px SimSun;}
+.sear_center .bnt_sear{ width:88px; height:40px; padding:0 0 0 20px; background:#a2a9ae url("../images/sear_ico.png") no-repeat 10px center; font-size:16px; color:#FFF; border:0 none; cursor:pointer; float:right;}
+.sear_bottom{ padding:18px 0 0 0;}
+.sear_bottom label{ float:left; font-family:SimSun; color:#FFF; margin-right:20px;}
+.sear_bottom input{ margin:0 3px 3px 0;}
+
+
+.focusImage{width:500px; height:200px;position:relative;overflow:hidden; z-index:6; margin:0 auto;}
+.scrollImg ul{ width:10000px;}
+.scrollImg li{float:left;width:500px; position:relative; margin:0;}
+.scrollImg li .text{ width:500px; height:30px; line-height:30px; font-size:14px; background:url("/images/hei_bj-7223737bb6b3ceb2fe8bfecb1789b84c.png"); overflow:hidden; position:absolute; bottom:0; left:0;}
+.scrollImg li .text a{ color:#FFF; margin:0 10px;}
+.scrollImg img{border:0px;display:block; width:500px; height:200px;}
+.scrollNum{height:10px;z-index:10;position:absolute;right:10px;bottom:10px;}
+.scrollNum li{float:left;width:10px;height:10px; background:#2f905b; margin:0 0 0 6px;}
+.scrollNum li a{width:10px;height:10px;display:block;}
+.scrollNum li.current{ background:#dc0e18;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

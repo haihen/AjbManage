@@ -1,9 +1,9 @@
 package com.bootdo.oa.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-
-
+import java.util.List;
 
 /**
  * InnoDB free: 7168 kB
@@ -28,6 +28,8 @@ public class SchoolEducationDO implements Serializable {
 	private Integer isDeleted;
 	
 	private String sfxz;
+	
+	private List<SchoolEducationDO> childList = new ArrayList<SchoolEducationDO>();
 
 	/**
 	 * 设置：
@@ -102,6 +104,10 @@ public class SchoolEducationDO implements Serializable {
 	public void setSfxz(String sfxz) {
 		this.sfxz = sfxz;
 	}
-	
-	
+	public List<SchoolEducationDO> getChildList() {
+		return childList;
+	}
+	public void setChildList(List<SchoolEducationDO> childList) {
+		this.childList = childList;
+	}
 }

@@ -21,6 +21,8 @@ public class OldEducationDO implements Serializable {
 	private String title;
 	//文章
 	private String context;
+	//缩略图
+	private String coverImg;
 	//类型
 	private String type;
 	//创建时间
@@ -30,6 +32,10 @@ public class OldEducationDO implements Serializable {
 	//是否删除
 	private Integer isDeleted;
 
+	private String beforeId ;
+	private String beforeTitle;
+	private String afterId;
+	private String afterTitle;
 	/**
 	 * 设置：
 	 */
@@ -65,6 +71,18 @@ public class OldEducationDO implements Serializable {
 	 */
 	public String getContext() {
 		return context;
+	}
+	/**
+	 * 设置：缩略图
+	 */
+	public String getCoverImg() {
+		return coverImg;
+	}
+	/**
+	 * 获取：缩略图
+	 */
+	public void setCoverImg(String coverImg) {
+		this.coverImg = coverImg;
 	}
 	/**
 	 * 设置：类型
@@ -114,4 +132,29 @@ public class OldEducationDO implements Serializable {
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}
+	public String getBeforeId() {
+		return beforeId;
+	}
+	public void setBeforeId(String beforeId) {
+		this.beforeId = beforeId;
+	}
+	public String getBeforeTitle() {
+		return beforeTitle;
+	}
+	public void setBeforeTitle(String beforeTitle) {
+		this.beforeTitle = beforeTitle;
+	}
+	public String getAfterId() {
+		return afterId;
+	}
+	public void setAfterId(String afterId) {
+		this.afterId = afterId;
+	}
+	public String getAfterTitle() {
+		return afterTitle;
+	}
+	public void setAfterTitle(String afterTitle) {
+		this.afterTitle = afterTitle;
+	}
+	
 }

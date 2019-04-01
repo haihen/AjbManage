@@ -3,6 +3,7 @@ package com.bootdo.common.utils.xss;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
@@ -10,7 +11,6 @@ import org.jsoup.safety.Whitelist;
 /**
  * xss非法标签过滤
  * {@link http://www.jianshu.com/p/32abc12a175a?nomobile=yes}
- * @author yangwenkui
  * @version v2.0
  * @time 2017年4月27日 下午5:47:09
  */
@@ -33,6 +33,14 @@ public class JsoupUtil {
 	}
 
 	public static String clean(String content) {
+		if(StringUtils.isNotBlank(content)){
+	        content = content.trim();
+//	        content = xssEncode(content);
+	        System.out.println("content::::::::::::"+content);
+	        if(content.indexOf("<img")>-1){
+	        	return content;
+	        }
+        }
 		return Jsoup.clean(content, "", whitelist, outputSettings);
 	}
 	
@@ -40,5 +48,52 @@ public class JsoupUtil {
 		String text = "<a href=\"http://www.baidu.com/a\" onclick=\"alert(1);\">sss</a><script>alert(0);</script>sss";
 		System.out.println(clean(text));
 	}
+	
+	//将容易引起xss漏洞的半角字符直接替换成全角字符
+
+	public static String xssEncode(String s) {
+        if (s == null || s.isEmpty()) {
+            return s;
+        }
+        StringBuilder sb = new StringBuilder(s.length() + 16);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            switch (c) {
+
+                case '>':
+                sb.append('a');          //全角大于号
+                break;
+
+                case '<':
+                sb.append('a');          //全角小于号
+                break;
+
+                case '\'':
+                sb.append('‘');           //全角单引号
+                break;
+
+                case '\"':
+                sb.append('“');           //全角双引号
+                break;
+
+                case '&':
+                sb.append('＆');          //全角
+                break;
+
+                case '\\':
+                sb.append('＼');          //全角斜线
+                break;
+
+                case '#':
+                sb.append('＃');          //全角井号
+                break;
+
+                default:
+                sb.append(c);
+                break;
+            }
+        }
+        return sb.toString();
+    }
 
 }

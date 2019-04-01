@@ -69,11 +69,13 @@ public class ShiroConfig {
     ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/login");
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setLoginUrl("/home");
+        shiroFilterFactoryBean.setSuccessUrl("/home");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         
+        filterChainDefinitionMap.put("/home/loginOutWeb","anon");
+        filterChainDefinitionMap.put("/home/loginOutWeb","anon");
         filterChainDefinitionMap.put("/login","anon");
         filterChainDefinitionMap.put("/getVerify","anon");
         filterChainDefinitionMap.put("/css/**", "anon");
@@ -84,11 +86,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/upload/**", "anon");
         filterChainDefinitionMap.put("/files/**", "anon");
-        filterChainDefinitionMap.put("/logout", "logout");
+        filterChainDefinitionMap.put("/logout", "anon");
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/blog", "anon");
         filterChainDefinitionMap.put("/blog/open/**", "anon");
         filterChainDefinitionMap.put("/home/**","anon");
+        filterChainDefinitionMap.put("/web/**","anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -100,13 +103,13 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //设置realm.
         securityManager.setRealm(userRealm());
-        // 自定义缓存实现 使用redis
-        if (Constant.CACHE_TYPE_REDIS.equals(cacheType)) {
-            securityManager.setCacheManager(rediscacheManager());
-        } else {
-            securityManager.setCacheManager(ehCacheManager());
-        }
-        securityManager.setSessionManager(sessionManager());
+//        // 自定义缓存实现 使用redis
+//        if (Constant.CACHE_TYPE_REDIS.equals(cacheType)) {
+//            securityManager.setCacheManager(rediscacheManager());
+//        } else {
+//            securityManager.setCacheManager(ehCacheManager());
+//        }
+//        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
@@ -179,19 +182,19 @@ public class ShiroConfig {
         }
     }
 
-    /**
-     * shiro session的管理
-     */
-    @Bean
-    public DefaultWebSessionManager sessionManager() {
-        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        sessionManager.setGlobalSessionTimeout(tomcatTimeout * 1000);
-        sessionManager.setSessionDAO(sessionDAO());
-        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
-        listeners.add(new BDSessionListener());
-        sessionManager.setSessionListeners(listeners);
-        return sessionManager;
-    }
+//    /**
+//     * shiro session的管理
+//     */
+//    @Bean
+//    public DefaultWebSessionManager sessionManager() {
+//        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+//        sessionManager.setGlobalSessionTimeout(tomcatTimeout * 1000);
+//        sessionManager.setSessionDAO(sessionDAO());
+//        Collection<SessionListener> listeners = new ArrayList<SessionListener>();
+//        listeners.add(new BDSessionListener());
+//        sessionManager.setSessionListeners(listeners);
+//        return sessionManager;
+//    }
 
     @Bean
     public EhCacheManager ehCacheManager() {

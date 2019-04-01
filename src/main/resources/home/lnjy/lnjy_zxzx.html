@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link href="/home/css/global.css" type="text/css" rel="stylesheet" />
+	<link href="/home/css/erjiye.css" type="text/css" rel="stylesheet" />
+	<title>天津西青老年门户</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<div class="box">
+	<div class="header">
+		<div class="logo">
+			<a title="老年人学习网" href="/home/lnjy">老年人学习网</a>
+		</div>
+		<div class="login">
+			<a class="retN" style="color:#F0F8FF;margin-right:20px;" href="/home">返回首页</a>
+		</div>
+	</div>
+	<div class="main">
+		<div class="mainleft">
+			<ul>
+				<li class="cur">
+					<a href="/home/lnjy_zxzx">资讯中心</a>
+				</li>
+				<li>
+					<a href="/home/lnjy_other?type=健康养生">健康养生</a>
+				</li>
+				<li>
+					<a href="/home/lnjy_other?type=快乐生活">快乐生活</a>
+				</li>
+				<li>
+					<a href="/home/lnjy_other?type=隔代教育">隔代教育</a>
+				</li>
+				<li>
+					<a href="/home/lnjy_other?type=家庭理财">家庭理财</a>
+				</li>
+				<li>
+					<a href="/home/lnjy_other?type=法律维权">法律维权</a>
+				</li>
+			</ul>
+		</div>
+		<div class="mainright">
+			<div class="egant clearfix">
+				<div class="egantImage">
+					<div class="egantImg">
+						<ul>
+							<li>
+								<a href="lnjy_zxzx_pic.html"><img src="/home/images/lnjy_zyzx.jpg" width="470" height="300" /></a>
+								<div class="qounshty">
+									<a href="lnjy_zxzx_pic.html">王稳庄镇教学点开班</a>
+								</div>
+							</li>
+					
+						</ul>
+					</div>
+				</div>
+				<div class="eblNews eblCen_1">
+					<h3><a title="通知公告" href="/home/lnjy_zxzx_list?type=资讯中心-通知公告">通知公告</a></h3>
+					<ul id="lndx_tggg">
+
+					</ul>
+				</div>
+				<div class="eblNews eblCen_2">
+					<h3><a title="教学动态" href="/home/lnjy_zxzx_list?type=资讯中心-教学动态">教学动态</a></h3>
+					<ul id="lndx_jxdt">
+
+					</ul>
+				</div>
+				<div class="eblNews eblCen_3">
+					<h3><a title="特色生活" href="/home/lnjy_zxzx_list?type=资讯中心-特色生活">特色生活</a></h3>
+					<ul id="lndx_tssh">
+
+					</ul>
+				</div>
+				<div class="eblNews eblCen_4">
+					<h3><a title="学员风采" href="/home/lnjy_zxzx_list?type=资讯中心-学员风采">学员风采</a></h3>
+					<ul id="lndx_xyfc">
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+
+	<script type="text/javascript" src="/home/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="/home/js/dateUtil.js"></script>
+	<script src="/home/js/layui.js"></script>
+	<script src="/home/js/laypage.js"></script>
+	<script>
+	//通知公告部分
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            var totalRecord = 0;//初始化总记录数
+            var pageNum = 0;//初始化页数为第一页
+            var pageSize = 8;//每页显示条数10条
+            getNewsData();
+
+            function getNewsData(){
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "/home/getZxzxList",
+                    data: {type:"资讯中心-通知公告", offset: pageNum, limit: pageSize},
+                    success: function (data) {
+                        totalRecord = data.total;//数据总条数
+                        console.log(data.rows);
+                        fillDataToPage(data)
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+                        console.log(XMLHttpRequest.status);
+                        console.log(XMLHttpRequest.readyState);
+                        console.log(textStatus);
+                    }
+                });
+            }
+             // * 填充数据*
+            function fillDataToPage(data) {
+                var i = 0;
+                var html = "";
+                $.each(data.rows, function(i,result){
+                    //转换日期格式，引入想对应的js
+                    /* var addTime = new Date(result.gmtModified).Format("yyyy-MM-dd hh:mm:ss"); */
+
+                    html+="<li>"
+                    html+="<a title="+result.title+" onclick='djtzgg("+result.id+")'> " +
+                        "<b class='icons'></b>"+result.title+"</a>"
+                    html+="</li>"
+
+                });
+                $("#lndx_tggg").append(html);
+            }
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'text1' //注意，这里的 test1 是 ID，不用加 #号
+                , count: totalRecord //数据总数，从服务端得到
+                , curr: pageNum
+                , limit: pageSize
+                , jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    pageNum = obj.curr;//得到当前页，以便向服务端请求对应页的数据。
+                    pageSize = obj.limit;//得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                        $('.eblCen_1').empty();
+                        getNewsData();
+                    }
+                }
+            });
+        });
+        function djtzgg(id){
+            window.location.href="/home/lnjy_zxzx_detail?type=资讯中心-通知公告&id="+id;
+        }
+	</script>
+    <script>
+        //教学动态部分
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            var totalRecord = 0;//初始化总记录数
+            var pageNum = 0;//初始化页数为第一页
+            var pageSize = 8;//每页显示条数10条
+            getNewsData();
+
+            function getNewsData(){
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "/home/getZxzxList",
+                    data: {type:"资讯中心-教学动态", offset: pageNum, limit: pageSize},
+                    success: function (data) {
+                        totalRecord = data.total;//数据总条数
+                        console.log(data.rows);
+                        fillDataToPage(data)
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+                        console.log(XMLHttpRequest.status);
+                        console.log(XMLHttpRequest.readyState);
+                        console.log(textStatus);
+                    }
+                });
+            }
+            // * 填充数据*
+            function fillDataToPage(data) {
+                var i = 0;
+                var html = "";
+                $.each(data.rows, function(i,result){
+                    //转换日期格式，引入想对应的js
+                    /* var addTime = new Date(result.gmtModified).Format("yyyy-MM-dd hh:mm:ss"); */
+
+                    html+="<li>"
+                    html+="<a title="+result.title+" onclick='djjxdt("+result.id+")'> " +
+                        "<b class='icons'></b>"+result.title+"</a>"
+                    html+="</li>"
+
+                });
+                $("#lndx_jxdt").append(html);
+            }
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'text1' //注意，这里的 test1 是 ID，不用加 #号
+                , count: totalRecord //数据总数，从服务端得到
+                , curr: pageNum
+                , limit: pageSize
+                , jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    pageNum = obj.curr;//得到当前页，以便向服务端请求对应页的数据。
+                    pageSize = obj.limit;//得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                        $('.eblCen_2').empty();
+                        getNewsData();
+                    }
+                }
+            });
+        });
+        function djjxdt(id){
+            window.location.href="/home/lnjy_zxzx_detail?type=资讯中心-教学动态&id="+id;
+        }
+	</script>
+	<script>
+        //特色生活部分
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            var totalRecord = 0;//初始化总记录数
+            var pageNum = 0;//初始化页数为第一页
+            var pageSize = 8;//每页显示条数10条
+            getNewsData();
+
+            function getNewsData(){
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "/home/getZxzxList",
+                    data: {type:"资讯中心-特色生活", offset: pageNum, limit: pageSize},
+                    success: function (data) {
+                        totalRecord = data.total;//数据总条数
+                        console.log(data.rows);
+                        fillDataToPage(data)
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+                        console.log(XMLHttpRequest.status);
+                        console.log(XMLHttpRequest.readyState);
+                        console.log(textStatus);
+                    }
+                });
+            }
+            // * 填充数据*
+            function fillDataToPage(data) {
+                var i = 0;
+                var html = "";
+                $.each(data.rows, function(i,result){
+                    // console.log(data.lifeList.list);
+                    //转换日期格式，引入想对应的js
+                    /* var addTime = new Date(result.gmtModified).Format("yyyy-MM-dd hh:mm:ss"); */
+
+                    html+="<li>"
+                    html+="<a title="+result.title+" onclick='djtssh("+result.id+")'> " +
+                        "<b class='icons'></b>"+result.title+"</a>"
+                    html+="</li>"
+
+                });
+                $("#lndx_tssh").append(html);
+            }
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'text1' //注意，这里的 test1 是 ID，不用加 #号
+                , count: totalRecord //数据总数，从服务端得到
+                , curr: pageNum
+                , limit: pageSize
+                , jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    pageNum = obj.curr;//得到当前页，以便向服务端请求对应页的数据。
+                    pageSize = obj.limit;//得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                        $('.eblCen_3').empty();
+                        getNewsData();
+                    }
+                }
+            });
+        });
+        function djtssh(id){
+            window.location.href="/home/lnjy_zxzx_detail?type=资讯中心-特色生活&id="+id;
+        }
+	</script>
+	<script>
+        //学员风采部分
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            var totalRecord = 0;//初始化总记录数
+            var pageNum = 0;//初始化页数为第一页
+            var pageSize = 8;//每页显示条数10条
+            getNewsData();
+
+            function getNewsData(){
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "/home/getZxzxList",
+                    data: {type:"资讯中心-学员风采", offset: pageNum, limit: pageSize},
+                    success: function (data) {
+                        totalRecord = data.total;//数据总条数
+                        console.log(data.rows);
+                        fillDataToPage(data)
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+                        console.log(XMLHttpRequest.status);
+                        console.log(XMLHttpRequest.readyState);
+                        console.log(textStatus);
+                    }
+                });
+            }
+            // * 填充数据*
+            function fillDataToPage(data) {
+                var i = 0;
+                var html = "";
+                $.each(data.rows, function(i,result){
+                    // console.log(data.lifeList.list);
+                    //转换日期格式，引入想对应的js
+                    /* var addTime = new Date(result.gmtModified).Format("yyyy-MM-dd hh:mm:ss"); */
+
+                    html+="<li>"
+                    html+="<a title="+result.title+" onclick='djxyfc("+result.id+")'> " +
+                        "<b class='icons'></b>"+result.title+"</a>"
+                    html+="</li>"
+
+                });
+                $("#lndx_xyfc").append(html);
+            }
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'text1' //注意，这里的 test1 是 ID，不用加 #号
+                , count: totalRecord //数据总数，从服务端得到
+                , curr: pageNum
+                , limit: pageSize
+                , jump: function (obj, first) {
+                    //obj包含了当前分页的所有参数，比如：
+                    pageNum = obj.curr;//得到当前页，以便向服务端请求对应页的数据。
+                    pageSize = obj.limit;//得到每页显示的条数
+
+                    //首次不执行
+                    if (!first) {
+                        //do something
+                        $('.eblCen_4').empty();
+                        getNewsData();
+                    }
+                }
+            });
+        });
+        function djxyfc(id){
+            window.location.href="/home/lnjy_zxzx_detail?type=资讯中心-学员风采&id="+id;
+        }
+	</script>
+</div>
+</body>
+
+</html>

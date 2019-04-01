@@ -17,8 +17,9 @@ public class FileType {
 			// 获取文件后缀名并转化为写，用于后续比较
 			String fileType = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
 			// 创建图片类型数组0
-			String[] img = { "bmp", "jpg", "jpeg", "png", "tiff", "gif", "pcx", "tga", "exif", "fpx", "svg", "psd",
-					"cdr", "pcd", "dxf", "ufo", "eps", "ai", "raw", "wmf" };
+			String[] img = { "bmp", "jpg", "jpeg", "png", "gif", "psd","tif" };
+//			String[] img = { "bmp", "jpg", "jpeg", "png", "tiff", "gif", "pcx", "tga", "exif", "fpx", "svg", "psd",
+//					"cdr", "pcd", "dxf", "ufo", "eps", "ai", "raw", "wmf" };
 			for (int i = 0; i < img.length; i++) {
 				if (img[i].equals(fileType)) {
 					return 0;

@@ -8,7 +8,7 @@
 			<div class="col-sm-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-						<form class="form-horizontal m-t" id="signupForm">
+						<form class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data">
 							<input id="id" name="id" th:value="${oldEducation.id}"  type="hidden">
 							<div class="form-group">	
 								<label class="col-sm-3 control-label">标题：</label>
@@ -34,6 +34,16 @@
 	                                </select>
 	                            </div>
                         	</div>
+                        	<div class="form-group" id="slt">	
+								<label class="col-sm-3 control-label">缩略图：</label>
+								<div class="col-sm-3">
+									<!-- <input id="coverImg" name="coverImg" class="form-control" type="text"> -->
+									<input id="coverImgFile" name="coverImgFile" class="form-control" type="file">
+								</div>
+								<div class="col-sm-5">
+                                    <img id="preview" alt="image" class="img-responsive" th:src="${oldEducation.coverImg}"  width="200px" height="90px">
+                                </div>
+							</div>
 							<div class="form-group">	
 								<input id="context" name="context" th:value="${oldEducation.context}" type="hidden"> <label
 									class="col-sm-3 control-label">内容：</label>
@@ -57,5 +67,58 @@
 	<div th:include="include::footer"></div>
 	<script type="text/javascript" src="/js/appjs/oa/oldEducation/edit.js">
 	</script>
+	<script type="text/javascript">
+		$(function () {
+			var type = $("#type").val();
+			if(type.indexOf('资讯中心')>-1){
+				$("#slt").css('display','none');
+			} else {
+				$("#slt").css('display','');
+			}
+			$("#coverImgFile").change(function () {
+				var coverImg = $("#coverImgFile").val();
+				if (!$.trim(coverImg)) {
+					return;
+				}
+				var i = coverImg.lastIndexOf('.');
+				var len = coverImg.length;
+				var str = coverImg.substring(len, i + 1);
+				var extName = "BMP,JPG,JPEG,PNG,TIFF,GIF,PCX,TGA,EXIF,FPX,SVG,PSD,CDR,PCD,DXF,UFO,EPS,AI,RAW,WMF";
+				if (extName.indexOf(str.toUpperCase()) < 0) {
+					alert("请上传图片文件!");
+					return;
+				}
+				
+				var $file = $(this);
+				var fileObj = $file[0];
+				var windowURL = window.URL || window.webkitURL;
+				var dataURL;
+				var $img = $("#preview");
+				if (fileObj && fileObj.files && fileObj.files[0]) {
+					dataURL = windowURL.createObjectURL(fileObj.files[0]);
+					$img.attr('src', dataURL);
+			    } else {
+			    	
+					dataURL = $file.val();
+					//var imgObj = document.getElementById("preview");
+		 		 	//imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+				 	//imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL; 
+				 	$img.attr('src', dataURL);
+			 }
+	
+		  });
+
+			$("#type").change(function () {
+				var type = $("#type").val();
+				if(type.indexOf('资讯中心')>-1){
+					$("#slt").css('display','none');
+					$("#coverImgFile").val('');
+				} else {
+					$("#slt").css('display','');
+				}
+				
+		  	});
+	    });
+	</script>	
 </body>
 </html>

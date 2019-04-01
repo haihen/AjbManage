@@ -3,7 +3,6 @@ package com.bootdo.system.vo;
 import com.bootdo.system.domain.UserDO;
 
 /**
- * @author gaoyuzhe
  * @date 2017/12/15.
  */
 public class UserVO {

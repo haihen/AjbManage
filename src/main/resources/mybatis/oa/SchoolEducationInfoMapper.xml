@@ -49,6 +49,18 @@
 		  		  <if test="isDeleted != null and isDeleted != ''"> and wsei.is_deleted = #{isDeleted} </if>
 		  		</where>
 	</select>
+	
+	<select id="getAdjacent" parameterType="com.bootdo.oa.domain.SchoolEducationInfoDO" resultType="com.bootdo.oa.domain.SchoolEducationInfoDO">
+		SELECT
+		     ( SELECT id FROM web_school_education_info WHERE create_time &gt; ( SELECT create_time FROM web_school_education_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeId,
+		     ( SELECT title FROM web_school_education_info WHERE create_time &gt; ( SELECT create_time FROM web_school_education_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeTitle,
+		     ( SELECT id FROM web_school_education_info WHERE create_time &lt; ( SELECT create_time FROM web_school_education_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time DESC limit 1)as afterId,
+		     ( SELECT title FROM web_school_education_info WHERE create_time &lt; ( SELECT create_time FROM web_school_education_info WHERE id = #{id})and is_deleted = 0 ORDER BY create_time DESC limit 1) as afterTitle
+	    FROM
+	        web_school_education_info 
+	    WHERE
+	        id = #{id}
+    </select> 
 	 
 	<insert id="save" parameterType="com.bootdo.oa.domain.SchoolEducationInfoDO">
 		insert into web_school_education_info
@@ -78,7 +90,7 @@
 	<update id="update" parameterType="com.bootdo.oa.domain.SchoolEducationInfoDO">
 		update web_school_education_info 
 		<set>
-			and modify_time = NOW()
+			modify_time = NOW(),
 			<if test="title != null">title = #{title}, </if>
 			<if test="fkTypeId1 != null">fk_type_id1 = #{fkTypeId1}, </if>
 			<if test="fkTypeId2 != null">fk_type_id2 = #{fkTypeId2}, </if>

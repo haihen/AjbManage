@@ -9,6 +9,7 @@ import java.util.Map;
 import com.bootdo.common.utils.ShiroUtils;
 import com.bootdo.oa.dao.ActivityInfoDao;
 import com.bootdo.oa.domain.ActivityInfoDO;
+import com.bootdo.oa.domain.SchoolEducationInfoDO;
 import com.bootdo.oa.service.ActivityInfoService;
 import com.bootdo.system.domain.UserDO;
 
@@ -25,6 +26,11 @@ public class ActivityInfoServiceImpl implements ActivityInfoService {
 	}
 	
 	@Override
+	public ActivityInfoDO getAdjacent(Integer id){
+		return activityInfoDao.getAdjacent(id);
+	}
+	
+	@Override
 	public List<ActivityInfoDO> list(Map<String, Object> map){
 		return activityInfoDao.list(map);
 	}
@@ -38,6 +44,7 @@ public class ActivityInfoServiceImpl implements ActivityInfoService {
 	public int save(ActivityInfoDO activityInfo){
 		UserDO u = ShiroUtils.getUser();
 		activityInfo.setCreateUser(u.getUsername());
+		System.out.println("qwe:::"+activityInfo.getContext());
 		return activityInfoDao.save(activityInfo);
 	}
 	

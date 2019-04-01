@@ -18,6 +18,8 @@ public interface SchoolEducationInfoDao {
 
 	SchoolEducationInfoDO get(Integer id);
 	
+	SchoolEducationInfoDO getAdjacent(Integer id);
+	
 	List<SchoolEducationInfoDO> list(Map<String,Object> map);
 	
 	int count(Map<String,Object> map);

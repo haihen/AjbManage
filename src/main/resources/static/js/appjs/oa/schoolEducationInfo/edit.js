@@ -41,6 +41,8 @@ $().ready(function() {
     		}
     	});
     });	
+    var content = $("#context").val();
+	$('#content_sn').summernote('code', content);
 	validateRule();
 });
 

@@ -1,5 +1,6 @@
 package com.bootdo.oa.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import com.bootdo.oa.domain.TrainTypeDO;
 import com.bootdo.oa.service.TrainInfoService;
 import com.bootdo.oa.service.TrainTypeService;
 import com.bootdo.common.config.BootdoConfig;
+import com.bootdo.common.utils.CheckFileFormatUtil;
 import com.bootdo.common.utils.FileType;
 import com.bootdo.common.utils.FileUtil;
 import com.bootdo.common.utils.PageUtils;
@@ -104,6 +106,7 @@ public class TrainInfoController {
 		String fileName = "",fileUrl = "";
 		//技能培训封面
 		if(coverImgFile!=null && !coverImgFile.isEmpty()){
+			System.out.println("coverImgFile.getContentType():::::"+coverImgFile.getContentType());
 			fileName = coverImgFile.getOriginalFilename();
 			// 验证文件类型
 			if (FileType.fileType(fileName)!=0) {
@@ -117,6 +120,18 @@ public class TrainInfoController {
 			fileUrl =FileUtil.reUrl("trainImg");
 			try {
 				FileUtil.uploadFile(coverImgFile.getBytes(), bootdoConfig.getUploadPath()+fileUrl, fileName);
+				System.out.println("filepath:::::"+bootdoConfig.getUploadPath()+fileUrl+System.getProperty("file.separator")+fileName);
+				System.out.println("CheckFileFormatUtil::::"+CheckFileFormatUtil.getFileType(bootdoConfig.getUploadPath()+fileUrl+System.getProperty("file.separator")+fileName));
+				String fName = bootdoConfig.getUploadPath()+fileUrl+System.getProperty("file.separator")+fileName;
+				boolean isImage = false;
+				if(CheckFileFormatUtil.getFileType(fName)!=null){
+					isImage = true;
+				}
+				if(!isImage){
+					File imgFile = new File(fName);
+					imgFile.delete();
+					return R.error(1001, "图片类型错误，请上传图片文件！");
+				}
 			} catch (Exception e) {
 				return R.error();
 			}

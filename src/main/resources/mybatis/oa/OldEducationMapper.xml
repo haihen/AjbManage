@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.oa.dao.OldEducationDao">
 
 	<select id="get" resultType="com.bootdo.oa.domain.OldEducationDO">
-		select `id`,`title`,`context`,`type`,`create_time`,`create_user`,`is_deleted` from web_old_education where id = #{value} and is_deleted = 0
+		select `id`,`title`,`context`,`type`,`cover_img`,`create_time`,`create_user`,`is_deleted` from web_old_education where id = #{value} and is_deleted = 0
 	</select>
 
 	<select id="list" resultType="com.bootdo.oa.domain.OldEducationDO">
-		select `id`,`title`,`context`,`type`,`create_time`,`create_user`,`is_deleted` from web_old_education
+		select `id`,`title`,`context`,`type`,`cover_img`,`create_time`,`create_user`,`is_deleted` from web_old_education
         <where>  
          and is_deleted = 0
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -45,6 +45,18 @@
 		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
 		  		</where>
 	</select>
+	
+	<select id="getAdjacent" parameterType="com.bootdo.oa.domain.OldEducationDO" resultType="com.bootdo.oa.domain.OldEducationDO">
+		SELECT
+		     ( SELECT id FROM web_old_education WHERE create_time &gt; ( SELECT create_time FROM web_old_education WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeId,
+		     ( SELECT title FROM web_old_education WHERE create_time &gt; ( SELECT create_time FROM web_old_education WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeTitle,
+		     ( SELECT id FROM web_old_education WHERE create_time &lt; ( SELECT create_time FROM web_old_education WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time DESC limit 1)as afterId,
+		     ( SELECT title FROM web_old_education WHERE create_time &lt; ( SELECT create_time FROM web_old_education WHERE id = #{id})and is_deleted = 0 ORDER BY create_time DESC limit 1) as afterTitle
+	    FROM
+	        web_old_education 
+	    WHERE
+	        id = #{id}
+    </select> 
 	 
 	<insert id="save" parameterType="com.bootdo.oa.domain.OldEducationDO">
 		insert into web_old_education
@@ -52,6 +64,7 @@
 			`id`, 
 			`title`, 
 			`context`, 
+			`cover_img`,
 			`type`, 
 			`create_time`, 
 			`create_user`
@@ -61,6 +74,7 @@
 			#{id}, 
 			#{title}, 
 			#{context}, 
+			#{coverImg}, 
 			#{type}, 
 			NOW(), 
 			#{createUser}
@@ -72,6 +86,7 @@
 		<set>
 			<if test="title != null">`title` = #{title}, </if>
 			<if test="context != null">`context` = #{context}, </if>
+			<if test="coverImg != null">`cover_img` = #{coverImg}, </if>
 			<if test="type != null">`type` = #{type}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="createUser != null">`create_user` = #{createUser}, </if>

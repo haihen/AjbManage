@@ -20,6 +20,13 @@ function getCheckedRoles() {
 }
 function save() {
 	$("#roleIds").val(getCheckedRoles());
+	var pwd = $("#password").val();
+	var pwdRegex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}');
+	if(!pwdRegex.test(pwd)){
+		parent.layer.alert("您的密码安全级别低（密码中必须包含字母、数字、特殊字符），请及时修改密码！");
+		$('#password').focus();
+		return;
+	}
 	$.ajax({
 		cache : true,
 		type : "POST",
@@ -67,11 +74,11 @@ function validateRule() {
 			},
 			password : {
 				required : true,
-				minlength : 6
+				minlength : 8
 			},
 			confirm_password : {
 				required : true,
-				minlength : 6,
+				minlength : 8,
 				equalTo : "#password"
 			},
 			email : {
@@ -96,11 +103,11 @@ function validateRule() {
 			},
 			password : {
 				required : icon + "请输入您的密码",
-				minlength : icon + "密码必须6个字符以上"
+				minlength : icon + "密码必须8个字符以上"
 			},
 			confirm_password : {
 				required : icon + "请再次输入密码",
-				minlength : icon + "密码必须6个字符以上",
+				minlength : icon + "密码必须8个字符以上",
 				equalTo : icon + "两次输入的密码不一致"
 			},
 			email : icon + "请输入您的E-mail",

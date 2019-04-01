@@ -2,7 +2,8 @@
 /* CSS Document */
 
 .banner{ height:380px; position:relative;}
-#full-screen-slider { width:100%; height:380px; float:left; position:relative}
+#left-screen-slider { width:70%; height:380px; float:left; position:relative}
+#right-screen-slider { width:30%; height:380px; float:left; position:relative}
 #slides { display:block; width:100%; height:380px; list-style:none; padding:0; margin:0; position:relative}
 #slides li { display:block; width:100%; height:100%; list-style:none; padding:0; margin:0; position:absolute}
 #slides li a { width:100%; height:100%; text-indent:-9999px}

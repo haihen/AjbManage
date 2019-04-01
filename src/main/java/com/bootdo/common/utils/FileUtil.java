@@ -2,7 +2,9 @@ package com.bootdo.common.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.Properties;
 import java.util.UUID;
 
 public class FileUtil {
@@ -44,5 +46,21 @@ public class FileUtil {
 		String day = cal.get(Calendar.DAY_OF_MONTH) + "";
 		path = "images/" + type + "/" + year + "/" + month + "/" + day + "/";
 		return path;
+	}
+	
+	/**
+	 * 获取Properties实例
+	 * @param className
+	 * @param propertiesFile
+	 * @return
+	 */
+	public static Properties getProps(Class className,String propertiesFile){
+		Properties props = new Properties();
+		try {
+			props.load(className.getClassLoader().getResourceAsStream(propertiesFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return props;
 	}
 }

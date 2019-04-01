@@ -25,6 +25,11 @@ public class SchoolEducationInfoServiceImpl implements SchoolEducationInfoServic
 	}
 	
 	@Override
+	public SchoolEducationInfoDO getAdjacent(Integer id){
+		return schoolEducationInfoDao.getAdjacent(id);
+	}
+	
+	@Override
 	public List<SchoolEducationInfoDO> list(Map<String, Object> map){
 		return schoolEducationInfoDao.list(map);
 	}

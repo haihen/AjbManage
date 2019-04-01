@@ -16,6 +16,8 @@ public interface OldEducationService {
 	
 	OldEducationDO get(Integer id);
 	
+	OldEducationDO getAdjacent(Integer id);
+	
 	List<OldEducationDO> list(Map<String, Object> map);
 	
 	int count(Map<String, Object> map);

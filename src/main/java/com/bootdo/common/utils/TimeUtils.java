@@ -5,7 +5,9 @@ package com.bootdo.common.utils;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -320,4 +322,17 @@ public class TimeUtils {
         return true;
     }
     
+	/**
+	 * 获取当前时间（年-月-日 时）
+	 *
+	 */
+	public static String getCurDateTime() {
+		String curDate = "";
+		Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH");
+		curDate = formatter.format(cal.getTime());
+		return curDate;
+	}
 }

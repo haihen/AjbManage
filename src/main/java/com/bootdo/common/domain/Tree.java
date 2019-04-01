@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSON;
 /**
  * tree TODO <br>
  * 
- * @author kangxu2 2017-1-7
+ * @author  2017-1-7
  * 
  */
 public class Tree<T> {

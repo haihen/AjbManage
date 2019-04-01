@@ -18,6 +18,8 @@ public interface ActivityInfoDao {
 
 	ActivityInfoDO get(Integer id);
 	
+	ActivityInfoDO getAdjacent(Integer id);
+	
 	List<ActivityInfoDO> list(Map<String,Object> map);
 	
 	int count(Map<String,Object> map);

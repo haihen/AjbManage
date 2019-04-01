@@ -18,17 +18,21 @@ $.validator.setDefaults({
 });
 function save() {
 	var content_sn = $("#content_sn").summernote('code');
+	console.log(content_sn);
 	if(content_sn=='<br>'||content_sn=='<p><br></p>'||content_sn==null||content_sn==''){
 		parent.layer.alert("请填写特色活动内容");
 		return;
 	}
 	$("#context").val(content_sn);
+	var formData = new FormData($('#signupForm')[0]);
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/oa/activityInfo/save",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : formData,// 你的formid
 		async : false,
+		processData : false,
+        contentType: false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
 		},
