@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="utf-8" />
+		<title>天津西青全民学习平台</title>
+		<script type="text/javascript" src="/home/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="/home/common/angular.js"></script>
+		<script type="text/javascript" src="/home/common/compatibility.js"></script>
+		<link type="text/css" rel="stylesheet" href="/home/css/global.css" />
+		<link type="text/css" rel="stylesheet" href="/home/css/headFoot.css" />
+		<link type="text/css" rel="stylesheet" href="/home/css/index.css"/>
+		<link type="text/css" rel="stylesheet" href="/home/common/common.css"/>
+		<link type="text/css" rel="stylesheet" href="/home/common/regist.css"/>
+	</head>
+	<body>
+		<div class="box">
+			<#include "/headLoad.html">
+
+<div ui-view="" class="ng-scope"><!-- uiView:  -->
+
+	<div ui-view="" class="ng-scope"><style type="text/css" class="ng-scope">
+
+    .thirdloginicon {
+        float: left;
+        margin: 0px 26px;
+    }
+
+    .WB_loginButton a, #qqLoginBtn a {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .WB_loginButton img, #qqLoginBtn img {
+        display: none;
+    }
+
+    /*search*/
+    .search .btn-group:hover ul {
+        display: block;
+    }
+
+    .search .btn-group ul {
+        top: 31px;
+        min-width: 100px;
+        width: 100px;
+        text-align: center;
+        border-radius: 0;
+    }
+
+    .search .btn-group .btn-default {
+        border: 1px solid #e1e1e1;
+        border-right: none;
+        width: 99px;
+    }
+
+    .lognav {
+        list-style: none;
+        width: 100%;
+        overflow: hidden;
+        border-bottom: 1px solid #eaebed;
+        height: 52px;
+        padding: 0;
+        position: relative;
+    }
+
+    .lognav li {
+        float: left;
+        padding: 0 15px;
+    }
+
+    .lognav li a {
+        color: #333;
+        font-size: 16px;
+        line-height: 50px;
+        display: inline-block;
+        height: 51px;
+        padding: 0 5px;
+    }
+
+    .lognav li.active a {
+        color: #1271e0;
+        border-bottom: 2px solid #1271e0;
+        cursor: default;
+    }
+
+</style>
+<div style="left:0;top:0;bottom:0;width:100%;" >
+	<form id="signupForm">
+    <div id="layoutLogin" class="ng-pristine ng-valid" style="width:400px;height:300px;margin: auto;background-color: #f6f7fa;position: relative;margin-top:70px;margin-bottom:20px;">
+        <ul class="lognav">
+            <li class="active"><a>账号登录</a></li>
+
+        </ul>
+        <div style="width:330px; margin:15px auto 0;position: relative;">
+            <div ng-show="!showQR" class="">
+
+                <div style="margin-top: 20px;"><!---输入框--->
+                    <div style="padding-left: 34px;height:34px;border:0px solid #e1e1e1;background:url('/home/images/login_user.png') no-repeat 8px center;">
+                        <input type="text" name="loginName" id="loginName"  style="font-size:14px;width:100%;height:34px;line-height: 34px;"  placeholder="用户名">
+                    </div>
+                    <div style="margin:20px 0 0;padding-left: 34px;height:34px;border:0px solid #e1e1e1;background:url('/home/images/login_pwd.png') no-repeat 8px center;" ng-init="showPwd=false">
+                        <input type="password" name="password" id="password"  style="font-size:14px;width:100%;height:34px;"  placeholder="密码">
+                    </div>
+
+                </div>
+
+                <div style="margin:40px 0 0;">
+                    <div type="button" onClick="login()" style="height:34px;line-height: 34px;background-color: #2577be;color:#fff;font-size: 16px;cursor: pointer;text-align: center;">
+                        登 录
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+	</form>
+</div>
+
+
+</div>
+
+</div>
+
+<#include "/foot.html">
+</body>
+	<script type="text/javascript">
+		function login() {
+			var loginName = $('#loginName').val();
+			var password = $('#password').val();
+			if(!loginName){
+				alert('请输入登录名！');
+				$('#loginName').focus();
+				return;
+			}
+			if(!password){
+				alert('请输入密码！');
+				$('#password').focus();
+				return;
+			}
+			var params = {
+					'loginName' : loginName,
+					'password' : password
+				};
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "/home/loginWeb",
+				data : params,// 你的formid
+				async : false,
+				error : function(request) {
+					alert("登录失败，连接超时！");
+				},
+				success : function(data) {
+					if (data.code == 0) {
+						alert("登录成功！");
+						window.location.href="/home/grkj";
+					} else {
+						alert(data.msg);
+					}
+	
+				}
+			});
+	
+		}
+	</script>
+</html>

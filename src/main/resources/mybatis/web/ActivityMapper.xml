@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.web.dao.ActivityDao">
+
+	<select id="get" resultType="com.bootdo.web.domain.ActivityDO">
+		select `id`,`title`,`url`,date_format(start_time,'%Y-%m-%d') as start_time,date_format(end_time,'%Y-%m-%d') as end_time,`is_play`,`is_deleted` from web_activity_edu where id = #{value} and is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.bootdo.web.domain.ActivityDO">
+		select `id`,`title`,`url`,date_format(start_time,'%Y-%m-%d') as start_time,date_format(end_time,'%Y-%m-%d') as end_time,`is_play`,`is_deleted` from web_activity_edu
+        <where> 
+        	 and is_deleted = 0
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="title != null and title != ''"> and title like '%${title}%' </if>
+		  		  <if test="isPlay != null and isPlay != ''"> and is_play = #{isPlay} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<select id="listPlay" resultType="com.bootdo.web.domain.ActivityDO">
+		select `id`,`title`,`url`,date_format(start_time,'%Y-%m-%d') as start_time,date_format(end_time,'%Y-%m-%d') as end_time,`is_play`,`is_deleted` from web_activity_edu
+        <where> 
+        	 and is_deleted = 0 and is_play = 1
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="title != null and title != ''"> and title like '%${title}%' </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_activity_edu
+        <where> 
+        	 and is_deleted = 0 
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="title != null and title != ''"> and title like '%${title}%' </if>
+		  		  <if test="isPlay != null and isPlay != ''"> and is_play = #{isPlay} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.web.domain.ActivityDO">
+		insert into web_activity_edu
+		( 
+			`title`, 
+			`url`,
+			`start_time`,
+			`end_time`
+		)
+		values
+		(
+			#{title},
+			#{url},
+			#{startTime},
+			#{endTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.web.domain.ActivityDO">
+		update web_activity_edu 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="url != null">`url` = #{url}, </if>
+			<if test="startTime != null">`start_time` = #{startTime}, </if>
+			<if test="endTime != null">`end_time` = #{endTime}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="display" parameterType="com.bootdo.web.domain.ActivityDO">
+		update web_activity_edu 
+		<set>
+			<if test="isPlay != null">`is_play` = #{isPlay}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update web_activity_edu set is_deleted = 1 where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from web_activity_edu where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

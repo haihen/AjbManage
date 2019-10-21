@@ -1,0 +1,109 @@
+@charset "utf-8";
+/* CSS Document */
+body{ font-family:"微软雅黑";}
+
+.main{ width:998px; margin:30px auto 0 auto; border:solid #e9e9e9 1px;}
+
+.enter{ padding:10px 10px 30px 10px;}
+.enter dt{ background:#edfafe; font:18px/46px "微软雅黑"; text-align:center; color:#0082ae; margin-bottom:30px;}
+.enter dd{ zoom:1; overflow:hidden; padding:8px 0;}
+.enter dd label{ display:block; float:left; height:42px; line-height:42px; width:390px; float:left; text-align:right; color:#2c2c2c; font-size:16px;}
+.enter dd .fidtext{ width:320px; height:40px; border:solid #eaeaea 1px; float:left; padding:0 8px;}
+.enter dd select.fidtext{ width:336px;}
+.enter dd .bnt{ width:176px; height:50px; text-align:center; line-height:50px; border:0 none; background:#00b0ec; border-bottom:solid #007ca6 1px; font-size:24px; color:#FFF; border-radius:5px; float:left; cursor:pointer;}
+
+.mainLeft{ width:200px; float:left;}
+.mainLeft h2{ font:16px/44px "微软雅黑"; background:#00b0ec; padding:0 10px; color:#FFF;}
+.mainLeft ul{ margin-top:1px;}
+.mainLeft li{ margin-bottom:1px; font-size:16px;}
+.mainLeft li a{ display:block; line-height:30px; padding:0 15px; background:#eff4f6; color:#666;}
+.mainLeft li a.sav{ background:#eff4f6 url("../images/sav.png") no-repeat right 0; height:30px; overflow:hidden;}
+.mainLeft ul ul{ display:none;}
+.mainLeft li.curtent ul{ display:block;}
+.mainLeft li.curtent li{ margin:0; font-size:14px;}
+.mainLeft li.curtent li a{ background:none;}
+.mainLeft li.curtent a.sav{ background:#eff4f6 url("../images/sav.png") no-repeat right -30px; border-left:solid #0082ae 4px; padding:0 11px;}
+.mainLeft li a.cur{ color:#f06273;}
+
+.mainRight{ width:772px; float:right;}
+.nolish{ line-height:40px; background:#eff4f6; color:#333; font-size:14px; padding:0 20px;}
+.nolish span{ color:#0082ae;}
+.nosh-list{ margin-top:16px;}
+.nosh-list ul{ margin:0 0 0 -23px;}
+.nosh-list li{ width:242px; height:186px; float:left; background:#f3f3f3; border-bottom:solid #ddd 1px; margin:0 0 40px 23px;}
+.nosh-list li img{ width:242px; height:144px; display:block;}
+.nosh-list li h3{ line-height:40px; font-size:15px; padding:0 10px;}
+/*分页*/
+.pagination{text-align:right;}
+.pagination a,.pagination b{display:inline-block; vertical-align:top; background:#dddddd; height:30px; line-height:30px;color:#707070; margin-right:4px; padding:0px 11px; border-radius:4px;}
+.pagination a:hover,.pagination .cur{ background-color:#00b0ec; color:#fff;}
+
+.maskLayer{width:100%;height:100%;filter:alpha(opacity=50);opacity:0.5;background:#000;position:absolute;z-index:996;top:0;left:0;display:none;}
+.popvideo{ width:700px; height:630px; background:#FFF; border-radius:6px; position:absolute; z-index:999;display:none;}
+.Gal_tit{height:40px; padding:12px 20px 10px 50px;}
+.Gal_tit h3{ float:left; height:40px; line-height:40px; font-size:18px;}
+.Gal_tit h3 b{ background:url("/images/dele-2e2e0ea98b57513efaff56984794c476.png") no-repeat; width:20px; height:20px; float:left; margin:10px 10px 0 0;}
+.Gal_tit a.dele{ background:url("/images/dele-2e2e0ea98b57513efaff56984794c476.png") no-repeat 0 -20px; width:26px; height:26px; float:right; margin:7px 0 0 0;}
+.popvideo .videoImg{ width:600px; height:480px; margin:0 auto;}
+.popvideo .text{ width:600px; line-height:24px; margin:0 auto; padding:20px 0;}
+
+
+.programs{ background:#eff4f6; padding:10px; line-height:30px;}
+.programs .bt{ background:#00b0ec url("../images/rams.png") no-repeat right center; padding:0 17px 0 10px; font-size:16px; color:#FFF; display:block; float:left;}
+.programs a{ font-size:14px; color:#666; margin:0 10px;}
+.programs b{ color:#666;}
+.programs a:hover,.programs a.cur{ color:#00b0ec;}
+
+.prams-list{ margin-top:24px;}
+.prams-list ul{ margin:0 0 0 -20px;}
+.prams-list li{ width:235px; height:180px; float:left; background:#f5f5f5; border-bottom:solid #f0f0f0 1px; margin:0 0 30px 19px;}
+.prams-list li .bugImg{ width:235px; height:144px; position:relative; margin-bottom:5px;}
+.prams-list li .bugImg img{ width:235px; height:144px;}
+.prams-list li a.reod{ background:url("/home/images/imgBj-e68789c450dc21bfab800c2d84805dd9.png"); height:30px; display:block; width:219px; line-height:30px; font-size:14px; color:#FFF; padding:0 8px; position:absolute; left:0; bottom:0;}
+.prams-list li p{ font-size:14px; color:#888888; line-height:22px; padding:0 10px;}
+.prams-list li p span{ color:#F60; font-size:16px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

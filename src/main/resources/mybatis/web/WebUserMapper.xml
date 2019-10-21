@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.web.dao.WebUserDao">
+
+	<select id="get" resultType="com.bootdo.web.domain.WebUserDO">
+		select `user_id`,`login_name`,`password`,`user_name`,`nick_name`,`head_image`,`points`,`sex`,`id_card`,`mobile`,`email`,`address`,`street`,`memo`,`create_time`,`is_deleted` from web_user where user_id = #{value} and is_deleted = 0
+	</select>
+	
+	<select id="getByLogin" resultType="com.bootdo.web.domain.WebUserDO">
+		select `user_id`,`login_name`,`password`,`user_name`,`nick_name`,`head_image`,`points`,`sex`,`id_card`,`mobile`,`email`,`address`,`street`,`memo`,`create_time`,`is_deleted` from web_user where login_name = #{loginName} and password = #{password} and is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.bootdo.web.domain.WebUserDO">
+		select `user_id`,`login_name`,`password`,`user_name`,`nick_name`,`head_image`,`points`,`sex`,`id_card`,`mobile`,`email`,`address`,`street`,`memo`,`create_time`,`is_deleted` from web_user
+        <where>  
+        		 and is_deleted = 0
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="loginName != null and loginName != ''"> and login_name = #{loginName} </if>
+		  		  <if test="password != null and password != ''"> and password = #{password} </if>
+		  		  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+		  		  <if test="nickName != null and nickName != ''"> and nick_name = #{nickName} </if>
+		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
+		  		  <if test="idCard != null and idCard != ''"> and id_card = #{idCard} </if>
+		  		  <if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+		  		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="street != null and street != ''"> and street = #{street} </if>
+		  		  <if test="memo != null and memo != ''"> and memo = #{memo} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by user_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_user
+		 <where>  
+		  and is_deleted = 0
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="loginName != null and loginName != ''"> and login_name = #{loginName} </if>
+		  		  <if test="password != null and password != ''"> and password = #{password} </if>
+		  		  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+		  		  <if test="nickName != null and nickName != ''"> and nick_name = #{nickName} </if>
+		  		  <if test="sex != null and sex != ''"> and sex = #{sex} </if>
+		  		  <if test="idCard != null and idCard != ''"> and id_card = #{idCard} </if>
+		  		  <if test="mobile != null and mobile != ''"> and mobile = #{mobile} </if>
+		  		  <if test="email != null and email != ''"> and email = #{email} </if>
+		  		  <if test="address != null and address != ''"> and address = #{address} </if>
+		  		  <if test="street != null and street != ''"> and street = #{street} </if>
+		  		  <if test="memo != null and memo != ''"> and memo = #{memo} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+	</select>
+	
+	<select id="countByLogin" resultType="int">
+		select count(*) from web_user
+		 <where>  
+		  and is_deleted = 0 and user_id != #{userId} and login_name = #{loginName}
+		 </where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.web.domain.WebUserDO">
+		insert into web_user
+		(
+			`user_id`, 
+			`login_name`, 
+			`password`, 
+			`user_name`, 
+			`nick_name`, 
+			`sex`, 
+			`id_card`, 
+			`mobile`, 
+			`email`, 
+			`address`, 
+			`street`,
+			`memo`, 
+			`in_type`, 
+			`create_time`
+		)
+		values
+		(
+			#{userId}, 
+			#{loginName}, 
+			#{password}, 
+			#{userName}, 
+			#{nickName}, 
+			#{sex}, 
+			#{idCard}, 
+			#{mobile}, 
+			#{email}, 
+			#{address}, 
+			#{street}, 
+			#{memo}, 
+			#{inType},
+			NOW()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.web.domain.WebUserDO">
+		update web_user 
+		<set>
+			<if test="loginName != mobile and mobile != null">`login_name` = #{mobile}, </if>
+			<if test="password != null">`password` = #{password}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="nickName != null">`nick_name` = #{nickName}, </if>
+			<if test="headImage != null">`head_image` = #{headImage}, </if>
+			<if test="points != null">`points` = #{points}, </if>
+			<if test="sex != null">`sex` = #{sex}, </if>
+			<if test="idCard != null">`id_card` = #{idCard}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="email != null">`email` = #{email}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="street != null">`street` = #{street}, </if>
+			<if test="memo != null">`memo` = #{memo}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="isDeleted != null">`is_deleted` = #{isDeleted}</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+	
+	<update id="updateMMWeb" parameterType="com.bootdo.web.domain.WebUserDO">
+		update web_user 
+		<set>
+			<if test="newPassword != null">`password` = #{newPassword}, </if>
+		</set>
+		where login_name = #{loginName}
+	</update>
+	
+	<update id="updatePointsWeb" parameterType="com.bootdo.web.domain.WebUserDO">
+		update web_user set points = points+1 where login_name = #{loginName}
+	</update>
+	
+	<update id="remove">
+	    update web_user set is_deleted = 1 where user_id = #{value}
+	</update>
+	
+	<delete id="batchRemove">
+		delete from web_user where user_id in 
+		<foreach item="userId" collection="array" open="(" separator="," close=")">
+			#{userId}
+		</foreach>
+	</delete>
+
+</mapper>

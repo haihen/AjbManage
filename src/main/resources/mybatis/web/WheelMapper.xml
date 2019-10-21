@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.web.dao.WheelDao">
+
+	<select id="get" resultType="com.bootdo.web.domain.WheelDO">
+		select `id`,`title`,`wheel_url`,`img_url`,`is_deleted` from web_wheel where id = #{value} and is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.bootdo.web.domain.WheelDO">
+		select `id`,`title`,`wheel_url`,`img_url`,`is_deleted` from web_wheel
+        <where> 
+        	 and is_deleted = 0 
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="wheelUrl != null and wheelUrl != ''"> and wheel_url = #{wheelUrl} </if>
+		  		  <if test="imgUrl != null and imgUrl != ''"> and img_url = #{imgUrl} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_wheel
+		 <where>  
+		 	 and is_deleted = 0 
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="wheelUrl != null and wheelUrl != ''"> and wheel_url = #{wheelUrl} </if>
+		  		  <if test="imgUrl != null and imgUrl != ''"> and img_url = #{imgUrl} </if>
+		  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.web.domain.WheelDO">
+		insert into web_wheel
+		( 
+			`title`, 
+			`wheel_url`, 
+			`img_url`
+		)
+		values
+		(
+			#{title},
+			#{wheelUrl}, 
+			#{imgUrl}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.web.domain.WheelDO">
+		update web_wheel 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="wheelUrl != null">`wheel_url` = #{wheelUrl}, </if>
+			<if test="imgUrl != null">`img_url` = #{imgUrl}, </if>
+			<if test="isDeleted != null">`is_deleted` = #{isDeleted}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		update web_wheel set is_deleted = 0 where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from web_wheel where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
