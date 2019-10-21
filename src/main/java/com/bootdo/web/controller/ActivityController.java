@@ -29,7 +29,7 @@ import com.bootdo.common.utils.R;
 
 /**
  * InnoDB free: 9216 kB
- * 
+ * 教育在线活动上线2019/10/21上线
  * @author chglee
  * @email 1992lcg@163.com
  * @date 2019-07-05 09:17:50
