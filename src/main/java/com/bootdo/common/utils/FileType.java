@@ -34,7 +34,7 @@ public class FileType {
 				}
 			}
 			// 创建视频类型数组2
-			String[] video = { "mp4", "avi", "mov", "wmv", "asf", "navi", "3gp", "mkv", "f4v", "rmvb", "webm" };
+			String[] video = { "mp4", "avi", "mov", "wmv", "asf", "navi", "3gp", "mkv", "f4v", "rmvb", "webm" , "m4v" };
 			for (int i = 0; i < video.length; i++) {
 				if (video[i].equals(fileType)) {
 					return 2;
