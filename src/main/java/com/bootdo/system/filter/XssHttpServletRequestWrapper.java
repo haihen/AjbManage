@@ -32,7 +32,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     */  
     @Override  
     public String getParameter(String name) {
-    	System.out.println("content::::::::::::111");
+//    	System.out.println("content::::::::::::111");
         Boolean flag = ("content".equals(name) || name.endsWith("WithHtml"));
         if( flag && !isIncludeRichText){
             return super.getParameter(name);
@@ -47,7 +47,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     
     @Override
     public String[] getParameterValues(String name) {
-    	System.out.println("content::::::::::::222");
+//    	System.out.println("content::::::::::::222");
     	String[] arr = super.getParameterValues(name);
     	if(arr != null){
     		for (int i=0;i<arr.length;i++) {
@@ -65,7 +65,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     */  
     @Override  
     public String getHeader(String name) {  
-    	System.out.println("abc::::::::::::"+name);
+//    	System.out.println("abc::::::::::::"+name);
         name = JsoupUtil.clean(name);
         String value = super.getHeader(name);  
         if (StringUtils.isNotBlank(value)) {  

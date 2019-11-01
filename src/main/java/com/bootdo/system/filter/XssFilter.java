@@ -58,7 +58,7 @@ public class XssFilter implements Filter {
 		}
 
 		String url = request.getRequestURI()+request.getQueryString();
-		System.out.println("%%%%%%%%%%%%%%%%%%"+url);
+//		System.out.println("%%%%%%%%%%%%%%%%%%"+url);
 		if(url.indexOf("alert")>-1||url.indexOf("confirm")>-1||url.indexOf("onerror")>-1||url.indexOf("script")>-1||
 		url.indexOf("textarea")>-1||url.indexOf("onload")>-1||url.indexOf("expression")>-1||url.indexOf("eval")>-1||url.indexOf("src[")>-1){
 			return true;
