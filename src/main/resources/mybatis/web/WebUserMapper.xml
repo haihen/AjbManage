@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bootdo.web.dao.WebUserDao">
+<mapper namespace="com.ajb.web.dao.WebUserDao">
 
-	<select id="get" resultType="com.bootdo.web.domain.WebUserDO">
+	<select id="get" resultType="com.ajb.web.domain.WebUserDO">
 		select `user_id`,`login_name`,`password`,`user_name`,`nick_name`,`head_image`,`points`,`sex`,`id_card`,`mobile`,`email`,`address`,`street`,`memo`,`create_time`,`is_deleted` from web_user where user_id = #{value} and is_deleted = 0
 	</select>
 	
-	<select id="getByLogin" resultType="com.bootdo.web.domain.WebUserDO">
+	<select id="getByLogin" resultType="com.ajb.web.domain.WebUserDO">
 		select `user_id`,`login_name`,`password`,`user_name`,`nick_name`,`head_image`,`points`,`sex`,`id_card`,`mobile`,`email`,`address`,`street`,`memo`,`create_time`,`is_deleted` from web_user where login_name = #{loginName} and password = #{password} and is_deleted = 0
 	</select>
 
-	<select id="list" resultType="com.bootdo.web.domain.WebUserDO">
+	<select id="list" resultType="com.ajb.web.domain.WebUserDO">
 		select `user_id`,`login_name`,`password`,`user_name`,`nick_name`,`head_image`,`points`,`sex`,`id_card`,`mobile`,`email`,`address`,`street`,`memo`,`create_time`,`is_deleted` from web_user
         <where>  
         		 and is_deleted = 0
@@ -71,7 +71,7 @@
 		 </where>
 	</select>
 	 
-	<insert id="save" parameterType="com.bootdo.web.domain.WebUserDO">
+	<insert id="save" parameterType="com.ajb.web.domain.WebUserDO">
 		insert into web_user
 		(
 			`user_id`, 
@@ -108,7 +108,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.bootdo.web.domain.WebUserDO">
+	<update id="update" parameterType="com.ajb.web.domain.WebUserDO">
 		update web_user 
 		<set>
 			<if test="loginName != mobile and mobile != null">`login_name` = #{mobile}, </if>
@@ -130,7 +130,7 @@
 		where user_id = #{userId}
 	</update>
 	
-	<update id="updateMMWeb" parameterType="com.bootdo.web.domain.WebUserDO">
+	<update id="updateMMWeb" parameterType="com.ajb.web.domain.WebUserDO">
 		update web_user 
 		<set>
 			<if test="newPassword != null">`password` = #{newPassword}, </if>
@@ -138,7 +138,7 @@
 		where login_name = #{loginName}
 	</update>
 	
-	<update id="updatePointsWeb" parameterType="com.bootdo.web.domain.WebUserDO">
+	<update id="updatePointsWeb" parameterType="com.ajb.web.domain.WebUserDO">
 		update web_user set points = points+1 where login_name = #{loginName}
 	</update>
 	

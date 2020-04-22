@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group">	
+								<label class="col-sm-2 control-label">新闻中心（标题）：</label>
+								<div class="col-sm-9">
+									<input id="title" name="title" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-2 control-label">新闻中心（描述）：</label>
+								<div class="col-sm-9">
+									<input id="memo" name="memo" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-2 control-label">所属菜单：</label>
+								<div class="col-sm-9">
+									<select data-placeholder="--所属菜单--" name="type" id="type"
+                                        class="form-control chosen-select" tabindex="2" required>
+                                    	<option value="">--所属菜单--</option>
+                                    	<option th:each="menu : ${menuList}" th:value="${menu}" th:text="${menu}" ></option>
+                                	</select>
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-2 control-label">新闻中心（作者）：</label>
+								<div class="col-sm-9">
+									<input id="createUser" name="createUser" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group">	
+								<label class="col-sm-2 control-label">新闻中心（内容）：</label>
+								<div class="col-sm-9">
+									<input id="content" name="content" type="hidden">
+									<div class="ibox-content no-padding">
+										<div id="content_sn" class="summernote"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" id="slt">	
+								<label class="col-sm-2 control-label">新闻中心（图片）：</label>
+								<div class="col-sm-3">
+									<input id="imageFile" name="imageFile" class="form-control" type="file">
+								</div>
+								<div class="col-sm-6">
+                                    <img id="preview" alt="image" class="img-responsive"  width="200px" height="90px">
+                                </div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">是否发布:</label>
+								<div class="col-sm-9">
+									<label class="radio-inline"> <input type="radio"
+										name="isShow" value="0" checked /> 否
+									</label>
+									<label class="radio-inline"> <input type="radio"
+										name="isShow" value="1" /> 是
+									</label> 
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-2 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/news/add.js">
+	</script>
+	<script type="text/javascript">
+		$(function () {
+			$("#imageFile").change(function () {
+				var coverImg = $("#imageFile").val();
+				if (!$.trim(coverImg)) {
+					return;
+				}
+				var i = coverImg.lastIndexOf('.');
+				var len = coverImg.length;
+				var str = coverImg.substring(len, i + 1);
+				var extName = "BMP,JPG,JPEG,PNG,TIFF,GIF,PCX,TGA,EXIF,FPX,SVG,PSD,CDR,PCD,DXF,UFO,EPS,AI,RAW,WMF";
+				if (extName.indexOf(str.toUpperCase()) < 0) {
+					alert("请上传图片文件!");
+					return;
+				}
+				
+				var $file = $(this);
+				var fileObj = $file[0];
+				var windowURL = window.URL || window.webkitURL;
+				var dataURL;
+				var $img = $("#preview");
+				if (fileObj && fileObj.files && fileObj.files[0]) {
+					dataURL = windowURL.createObjectURL(fileObj.files[0]);
+					$img.attr('src', dataURL);
+			    } else {
+			    	
+					dataURL = $file.val();
+					//var imgObj = document.getElementById("preview");
+		 		 	//imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+				 	//imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL; 
+				 	$img.attr('src', dataURL);
+			 }
+	
+		  });
+
+	    });
+	</script>
+</body>
+</html>

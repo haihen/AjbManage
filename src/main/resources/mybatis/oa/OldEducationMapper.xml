@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bootdo.oa.dao.OldEducationDao">
+<mapper namespace="com.ajb.oa.dao.OldEducationDao">
 
-	<select id="get" resultType="com.bootdo.oa.domain.OldEducationDO">
+	<select id="get" resultType="com.ajb.oa.domain.OldEducationDO">
 		select `id`,`title`,`context`,`type`,`cover_img`,`create_time`,`create_user`,`is_deleted` from web_old_education where id = #{value} and is_deleted = 0
 	</select>
 
-	<select id="list" resultType="com.bootdo.oa.domain.OldEducationDO">
+	<select id="list" resultType="com.ajb.oa.domain.OldEducationDO">
 		select `id`,`title`,`context`,`type`,`cover_img`,`create_time`,`create_user`,`is_deleted` from web_old_education
         <where>  
          and is_deleted = 0
@@ -46,7 +46,7 @@
 		  		</where>
 	</select>
 	
-	<select id="getAdjacent" parameterType="com.bootdo.oa.domain.OldEducationDO" resultType="com.bootdo.oa.domain.OldEducationDO">
+	<select id="getAdjacent" parameterType="com.ajb.oa.domain.OldEducationDO" resultType="com.ajb.oa.domain.OldEducationDO">
 		SELECT
 		     ( SELECT id FROM web_old_education WHERE create_time &gt; ( SELECT create_time FROM web_old_education WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeId,
 		     ( SELECT title FROM web_old_education WHERE create_time &gt; ( SELECT create_time FROM web_old_education WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeTitle,
@@ -58,7 +58,7 @@
 	        id = #{id}
     </select> 
 	 
-	<insert id="save" parameterType="com.bootdo.oa.domain.OldEducationDO">
+	<insert id="save" parameterType="com.ajb.oa.domain.OldEducationDO">
 		insert into web_old_education
 		(
 			`id`, 
@@ -81,7 +81,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.bootdo.oa.domain.OldEducationDO">
+	<update id="update" parameterType="com.ajb.oa.domain.OldEducationDO">
 		update web_old_education 
 		<set>
 			<if test="title != null">`title` = #{title}, </if>

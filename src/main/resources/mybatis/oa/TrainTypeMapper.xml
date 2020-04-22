@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bootdo.oa.dao.TrainTypeDao">
+<mapper namespace="com.ajb.oa.dao.TrainTypeDao">
 
-	<select id="get" resultType="com.bootdo.oa.domain.TrainTypeDO">
+	<select id="get" resultType="com.ajb.oa.domain.TrainTypeDO">
 		select `id`,`type`,`is_deleted` from web_train_type where id = #{value} and is_deleted = 0
 	</select>
 
-	<select id="list" resultType="com.bootdo.oa.domain.TrainTypeDO">
+	<select id="list" resultType="com.ajb.oa.domain.TrainTypeDO">
 		select `id`,`type`,`is_deleted` from web_train_type
         <where>  
          and is_deleted = 0
@@ -38,7 +38,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.bootdo.oa.domain.TrainTypeDO">
+	<insert id="save" parameterType="com.ajb.oa.domain.TrainTypeDO">
 		insert into web_train_type
 		(
 			`id`, 
@@ -51,7 +51,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.bootdo.oa.domain.TrainTypeDO">
+	<update id="update" parameterType="com.ajb.oa.domain.TrainTypeDO">
 		update web_train_type 
 		<set>
 			<if test="type != null">`type` = #{type}, </if>

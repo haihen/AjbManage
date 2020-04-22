@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ajb.home.dao.HomeDao">
+
+	<select id="get" resultType="com.ajb.home.domain.HomeDO">
+		select `id`,`title`,`subtitle`,`content`,`memo`,`url`,`image_url`,`type`,`order_num`,`create_time`,`top_time`,`is_deleted`,`is_top`,`is_show` from web_home where id = #{value} and is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.ajb.home.domain.HomeDO">
+		select `id`,`title`,`subtitle`,`content`,`memo`,`url`,`image_url`,`type`,`order_num`,`create_time`,`top_time`,`is_deleted`,`is_top`,`is_show` from web_home
+        <where>
+        	 and is_deleted = 0  
+  		  <if test="id != null and id != ''"> and id = #{id} </if>
+  		  <if test="title != null and title != ''"> and title = #{title} </if>
+  		  <if test="subtitle != null and subtitle != ''"> and subtitle = #{subtitle} </if>
+  		  <if test="content != null and content != ''"> and content = #{content} </if>
+  		  <if test="memo != null and memo != ''"> and memo = #{memo} </if>
+  		  <if test="url != null and url != ''"> and url = #{url} </if>
+  		  <if test="imageUrl != null and imageUrl != ''"> and image_url = #{imageUrl} </if>
+  		  <if test="type != null and type != ''"> and type = #{type} </if>
+  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+  		  <if test="topTime != null and topTime != ''"> and top_time = #{topTime} </if>
+  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+  		  <if test="isTop != null and isTop != ''"> and is_top = #{isTop} </if>
+  		  <if test="isShow != null and isShow != ''"> and is_show = #{isShow} </if>
+  		  <if test="searchName != null and searchName != ''"> and (type like '%${searchName}%' or title like '%${searchName}%') </if>
+  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_home
+		 <where> 
+		 	and is_deleted = 0   
+  		  <if test="id != null and id != ''"> and id = #{id} </if>
+  		  <if test="title != null and title != ''"> and title = #{title} </if>
+  		  <if test="subtitle != null and subtitle != ''"> and subtitle = #{subtitle} </if>
+  		  <if test="content != null and content != ''"> and content = #{content} </if>
+  		  <if test="memo != null and memo != ''"> and memo = #{memo} </if>
+  		  <if test="url != null and url != ''"> and url = #{url} </if>
+  		  <if test="imageUrl != null and imageUrl != ''"> and image_url = #{imageUrl} </if>
+  		  <if test="type != null and type != ''"> and type = #{type} </if>
+  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+  		  <if test="topTime != null and topTime != ''"> and top_time = #{topTime} </if>
+  		  <if test="isDeleted != null and isDeleted != ''"> and is_deleted = #{isDeleted} </if>
+  		  <if test="isTop != null and isTop != ''"> and is_top = #{isTop} </if>
+  		  <if test="isShow != null and isShow != ''"> and is_show = #{isShow} </if>
+  		  <if test="searchName != null and searchName != ''"> and (type like '%${searchName}%' or title like '%${searchName}%') </if>
+  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.ajb.home.domain.HomeDO">
+		insert into web_home
+		(
+			`id`, 
+			`title`, 
+			`subtitle`, 
+			`content`, 
+			`memo`, 
+			`url`, 
+			`image_url`, 
+			`type`, 
+			`order_num`,
+			`create_time`, 
+			`top_time`, 
+			`is_top`, 
+			`is_show`
+		)
+		values
+		(
+			#{id}, 
+			#{title}, 
+			#{subtitle}, 
+			#{content}, 
+			#{memo}, 
+			#{url}, 
+			#{imageUrl}, 
+			#{type},
+			#{orderNum},
+			#{createTime}, 
+			#{topTime}, 
+			#{isTop}, 
+			#{isShow}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ajb.home.domain.HomeDO">
+		update web_home 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="subtitle != null">`subtitle` = #{subtitle}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="memo != null">`memo` = #{memo}, </if>
+			<if test="url != null">`url` = #{url}, </if>
+			<if test="imageUrl != null">`image_url` = #{imageUrl}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="orderNum != null">`order_num` = #{orderNum}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="topTime != null">`top_time` = #{topTime}, </if>
+			<if test="isDeleted != null">`is_deleted` = #{isDeleted}, </if>
+			<if test="isTop != null">`is_top` = #{isTop}, </if>
+			<if test="isShow != null">`is_show` = #{isShow}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="remove">
+		update web_home set is_deleted = 1 where id = #{value}
+	</update>
+	
+	<delete id="batchRemove">
+		delete from web_home where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,18 +1,18 @@
 bootdo:
-  uploadPath: /webdata/storage/
+  uploadPath: /home/homeweb/uploadfiles/
   username: admin
   password: 111111
 logging:
   level:
     root: info
-    com.bootdo: debug
+    com.ajb: debug
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://rm-8vb7c5mrq95fp95np.mysql.zhangbei.rds.aliyuncs.com:3306/xqstudy?useUnicode=true&characterEncoding=utf8
-    username: studydb
-    password: Xqstudy#2019
+    url: jdbc:mysql://10.10.10.53:3306/homemanage?useUnicode=true&characterEncoding=utf8
+    username: homeuser
+    password: home#2020
     #url: jdbc:mysql://127.0.0.1:3306/xqstudy?useUnicode=true&characterEncoding=utf8
     #username: root
     #password: a

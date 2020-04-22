@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ajb.log.dao.SysLogDao">
+
+<select id="list" resultType="com.ajb.log.SysLog">
+		select id,user_id,user_name,operation,method,params,ip,create_time from sys_web_log
+        <where>
+  		  <if test="id != null and id != ''"> and id = #{id} </if>
+  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+  		  <if test="userName != null and userName != ''"> and user_name = #{userName} </if>
+  		  <if test="operation != null and operation != ''"> and operation = #{operation} </if>
+  		  <if test="method != null and method != ''"> and method = #{method} </if>
+  		  <if test="params != null and params != ''"> and params = #{params} </if>
+  		  <if test="ip != null and ip != ''"> and ip = #{ip} </if>
+  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<insert id="save" parameterType="com.ajb.log.SysLog" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_web_log
+		(
+		`user_id`,
+		`user_name`,
+		`operation`,
+		`method`,
+		`params`,
+		`ip`,
+        `create_time`
+		)
+		values
+		(
+		#{userId},
+		#{userName},
+		#{operation},
+		#{method},
+		#{params},
+		#{ip},
+		#{createTime}
+		)
+	</insert>
+</mapper>

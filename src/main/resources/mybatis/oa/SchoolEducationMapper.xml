@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bootdo.oa.dao.SchoolEducationDao">
+<mapper namespace="com.ajb.oa.dao.SchoolEducationDao">
 
-	<select id="get" resultType="com.bootdo.oa.domain.SchoolEducationDO">
+	<select id="get" resultType="com.ajb.oa.domain.SchoolEducationDO">
 		select `id`,`type`,`level`,`pid`,`is_deleted` from web_school_education where id = #{value} and is_deleted = 0
 	</select>
 
-	<select id="list" resultType="com.bootdo.oa.domain.SchoolEducationDO">
+	<select id="list" resultType="com.ajb.oa.domain.SchoolEducationDO">
 		select `id`,`type`,`level`,`pid`,`is_deleted` from web_school_education
         <where>  
          and is_deleted = 0
@@ -30,7 +30,7 @@
 		</if>
 	</select>
 	
-	<select id="list2" resultType="com.bootdo.oa.domain.SchoolEducationDO">
+	<select id="list2" resultType="com.ajb.oa.domain.SchoolEducationDO">
 		select wse2.id id,wse2.type type,wse2.level level,wse2.pid pid,(select wse1.type type from web_school_education wse1 where wse1.id = wse2.pid and wse1.is_deleted = 0) as pType,wse2.is_deleted is_deleted
 		 from web_school_education wse2
         <where>  
@@ -66,7 +66,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.bootdo.oa.domain.SchoolEducationDO">
+	<insert id="save" parameterType="com.ajb.oa.domain.SchoolEducationDO">
 		insert into web_school_education
 		(
 			`id`, 
@@ -83,7 +83,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.bootdo.oa.domain.SchoolEducationDO">
+	<update id="update" parameterType="com.ajb.oa.domain.SchoolEducationDO">
 		update web_school_education 
 		<set>
 			<if test="type != null">`type` = #{type}, </if>

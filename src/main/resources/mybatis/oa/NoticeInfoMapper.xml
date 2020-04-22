@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bootdo.oa.dao.NoticeInfoDao">
+<mapper namespace="com.ajb.oa.dao.NoticeInfoDao">
 
-	<select id="get" resultType="com.bootdo.oa.domain.NoticeInfoDO">
+	<select id="get" resultType="com.ajb.oa.domain.NoticeInfoDO">
 		select `id`,`fk_type_id`,(select wnt.type from web_notice_type wnt where wnt.is_deleted = 0 and wnt.id = wni.fk_type_id) fkType,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_notice_info wni where id = #{value} and is_deleted = 0
 	</select>
 
-	<select id="list" resultType="com.bootdo.oa.domain.NoticeInfoDO">
+	<select id="list" resultType="com.ajb.oa.domain.NoticeInfoDO">
 		select `id`,`fk_type_id`,(select wnt.type from web_notice_type wnt where wnt.is_deleted = 0 and wnt.id = wni.fk_type_id) fkType,`title`,`context`,`create_time`,`create_user`,`is_deleted` from web_notice_info wni
         <where>  
          and is_deleted = 0
@@ -46,7 +46,7 @@
 		  		</where>
 	</select>
 	
-	<select id="getAdjacent" parameterType="com.bootdo.oa.domain.NoticeInfoDO" resultType="com.bootdo.oa.domain.NoticeInfoDO">
+	<select id="getAdjacent" parameterType="com.ajb.oa.domain.NoticeInfoDO" resultType="com.ajb.oa.domain.NoticeInfoDO">
 		SELECT
 		     ( SELECT id FROM web_notice_info WHERE create_time &gt; ( SELECT create_time FROM web_notice_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeId,
 		     ( SELECT title FROM web_notice_info WHERE create_time &gt; ( SELECT create_time FROM web_notice_info WHERE id = #{id}) and is_deleted = 0 ORDER BY create_time limit 1)as beforeTitle,
@@ -58,7 +58,7 @@
 	        id = #{id}
     </select>
 	 
-	<insert id="save" parameterType="com.bootdo.oa.domain.NoticeInfoDO">
+	<insert id="save" parameterType="com.ajb.oa.domain.NoticeInfoDO">
 		insert into web_notice_info
 		(
 			`id`, 
@@ -79,7 +79,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.bootdo.oa.domain.NoticeInfoDO">
+	<update id="update" parameterType="com.ajb.oa.domain.NoticeInfoDO">
 		update web_notice_info 
 		<set>
 			<if test="fkTypeId != null">`fk_type_id` = #{fkTypeId}, </if>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ajb.ajbtype.dao.AjbTypeImageDao">
+
+	<select id="get" resultType="com.ajb.ajbtype.domain.AjbTypeImageDO">
+		select `id`,`image_url`,`type`,`create_time` from web_ajb_firstimg where id = #{value} and is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.ajb.ajbtype.domain.AjbTypeImageDO">
+		select `id`,`image_url`,`type`,`create_time` from web_ajb_firstimg
+        <where>
+        	 and is_deleted = 0  
+  		  <if test="id != null and id != ''"> and id = #{id} </if>
+  		  <if test="type != null and type != ''"> and type = #{type} </if>
+  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_ajb_firstimg
+		 <where> 
+		 	and is_deleted = 0   
+  		  <if test="id != null and id != ''"> and id = #{id} </if>
+  		  <if test="type != null and type != ''"> and type = #{type} </if>
+  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.ajb.ajbtype.domain.AjbTypeImageDO">
+		insert into web_ajb_firstimg
+		(
+			`image_url`, 
+			`type`,
+			`create_time`
+		)
+		values
+		(
+			#{imageUrl}, 
+			#{type},
+			NOW()
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ajb.ajbtype.domain.AjbTypeImageDO">
+		update web_ajb_firstimg 
+		<set>
+			<if test="imageUrl != null">`image_url` = #{imageUrl}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="remove">
+		update web_ajb_firstimg set is_deleted = 1 where id = #{value}
+	</update>
+
+</mapper>

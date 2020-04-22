@@ -1,0 +1,65 @@
+$().ready(function() {
+	$('.summernote').summernote({
+		height : '400px',
+		lang : 'zh-CN',
+        callbacks: {
+            onImageUpload: function(files, editor, $editable) {
+                console.log("onImageUpload");
+                sendFile(files);
+            }
+        }
+    });
+	var content = $("#content").val();
+	$('#content_sn').summernote('code', content);
+	validateRule();
+});
+
+$.validator.setDefaults({
+	submitHandler : function() {
+		save();
+	}
+});
+function save() {
+	var content_sn = $("#content_sn").summernote('code');
+	if(content_sn=='<br>'||content_sn=='<p><br></p>'||content_sn==null||content_sn==''){
+		parent.layer.alert("请填写发展历程（描述）");
+		return;
+	}
+	$("#content").val(content_sn);
+	$.ajax({
+		cache : true,
+		type : "POST",
+		url :"/system/home/develop/save",
+		data : $('#signupForm').serialize(),
+		async : false,
+		error : function(request) {
+			laryer.alert("Connection error");
+		},
+		success : function(data) {
+			if (data.code == 0) {
+				parent.layer.msg("保存成功");
+				parent.reLoad();
+				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				parent.layer.close(index);
+
+			} else {
+				parent.layer.alert(data.msg);
+			}
+		}
+	});
+}
+function validateRule() {
+	var icon = "<i class='fa fa-times-circle'></i> ";
+	$("#signupForm").validate({
+		rules : {
+			title : "required",
+			content : "required",
+			orderNum : "required"
+		},
+		messages : {
+			title : "请填写发展历程（标题）",
+			content : "请填写发展历程（内容）",
+			orderNum : "请填写发展历程（排序）"
+		}
+	})
+}

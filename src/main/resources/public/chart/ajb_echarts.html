@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>百度ECHarts</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+
+                        <div class="echarts" id="echarts-bar-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- ECharts -->
+    <script src="/js/plugins/echarts/echarts-all.js"></script>
+
+    <!-- 自定义js -->
+    <script src="/js/content.js?v=1.0.0"></script>
+
+
+    <!-- ECharts demo data -->
+    <script>
+    
+	    $(function () {
+	
+	        var barChart = echarts.init(document.getElementById("echarts-bar-chart"));
+	        var baroption = {
+	            title : {
+	                text: '网站版块访问量分布比例'
+	            },
+	            tooltip : {
+	                trigger: 'axis'
+	            },
+	            legend: {
+	                data:['访问量']
+	            },
+	            grid:{
+	                x:30,
+	                x2:40,
+	                y2:24
+	            },
+	            calculable : true,
+	            xAxis : [
+	                {
+	                    type : 'category',
+	                    data : []
+	                }
+	            ],
+	            yAxis : [
+	                {
+	                    type : 'value'
+	                }
+	            ],
+	            series : [
+	                {
+	                    name:'访问量',
+	                    type:'bar',
+	                    data:[]
+	                }
+	            ]
+	        };
+	    	
+	    	function getRemoteCAnalysis(){
+	    		
+	    		$.ajax({
+	                type: "get",
+	                url: "/sys/report/list",
+	                async: false,
+	                jsonp: "jsoncallback",
+	                success: function(data) {
+	                	console.log("11111111111111111111111111111111111");
+	                    console.log(data);
+	                    var reportMap = data.reportMap;
+	                    setDataRemoteCAnalysis(reportMap);
+	                },
+	            });
+
+	    	}
+	    	getRemoteCAnalysis();
+
+	    	function setDataRemoteCAnalysis(statistics){
+
+		        //报名人员街道分布比例
+		        for(var i=0;i<statistics.moduleArray.length;i++){
+		        	baroption.xAxis[0].data[i] = statistics.moduleArray[i];
+		        }
+		        for(var i=0;i<statistics.moduleNumArray.length;i++){
+		        	baroption.series[0].data[i] = statistics.moduleNumArray[i];
+		        }
+		        
+		        /* baroption.xAxis[0].data=[statistics.moduleArray]; */
+		        /* baroption.series[0].data=[statistics.moduleNumArray]; */
+
+	    		barChart.setOption(baroption);
+		        window.onresize = barChart.resize;
+
+	    	}
+
+	    });
+ 
+    </script>
+
+
+</body>
+
+</html>

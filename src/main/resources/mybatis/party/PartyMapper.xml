@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ajb.party.dao.PartyDao">
+
+	<select id="get" resultType="com.ajb.party.domain.PartyDO">
+		select a.`id`,a.`title`,a.`subtitle`,a.`content`,a.`memo`,a.`url`,a.`image_url`,a.`file_url`,a.`type`,a.`sub_type_id`,b.`name` as subTypeName,
+		a.`order_num`,a.`create_user`,a.`create_time`,date(a.`create_time`) as create_date,a.`top_time`,a.`is_deleted`,a.`is_top`,a.`is_show`,a.`browse_num`
+		 from web_party a left join web_party_item b  on a.sub_type_id = b.id
+		 where a.id = #{value} and a.is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.ajb.party.domain.PartyDO">
+		select a.`id`,a.`title`,a.`subtitle`,a.`content`,a.`memo`,a.`url`,a.`image_url`,a.`file_url`,a.`type`,a.`sub_type_id`,b.`name` as subTypeName,
+		a.`order_num`,a.`create_user`,a.`create_time`,date(a.`create_time`) as create_date,a.`top_time`,a.`is_deleted`,a.`is_top`,a.`is_show`,a.`browse_num`
+		 from web_party a left join web_party_item b  on a.sub_type_id = b.id and b.is_deleted = 0
+        <where>
+        	 and a.is_deleted = 0
+  		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+  		  <if test="title != null and title != ''"> and a.title = #{title} </if>
+  		  <if test="subtitle != null and subtitle != ''"> and a.subtitle = #{subtitle} </if>
+  		  <if test="content != null and content != ''"> and a.content = #{content} </if>
+  		  <if test="memo != null and memo != ''"> and a.memo = #{memo} </if>
+  		  <if test="url != null and url != ''"> and a.url = #{url} </if>
+  		  <if test="imageUrl != null and imageUrl != ''"> and a.image_url = #{imageUrl} </if>
+  		  <if test="subTypeId != null and subTypeId != ''"> and a.sub_type_id = #{subTypeId} </if>
+  		  <if test="subTypeName != null and subTypeName != ''"> and b.name = #{subTypeName} </if>
+  		  <if test="type != null and type != ''"> and a.type = #{type} </if>
+  		  <if test="createUser != null and createUser != ''"> and a.create_user = #{createUser} </if>
+  		  <if test="createTime != null and createTime != ''"> and a.create_time = #{createTime} </if>
+  		  <if test="topTime != null and topTime != ''"> and a.top_time = #{topTime} </if>
+  		  <if test="isTop != null and isTop != ''"> and a.is_top = #{isTop} </if>
+  		  <if test="isShow != null and isShow != ''"> and a.is_show = #{isShow} </if>
+  		  <if test="searchName != null and searchName != ''"> and (a.type like '%${searchName}%' or a.title like '%${searchName}%') </if>
+  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a.type asc,a.sub_type_id desc,a.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_party a left join web_party_item b on a.sub_type_id = b.id and b.is_deleted = 0
+		 <where> 
+		 	 and a.is_deleted = 0
+  		  <if test="id != null and id != ''"> and a.id = #{id} </if>
+  		  <if test="title != null and title != ''"> and a.title = #{title} </if>
+  		  <if test="subtitle != null and subtitle != ''"> and a.subtitle = #{subtitle} </if>
+  		  <if test="content != null and content != ''"> and a.content = #{content} </if>
+  		  <if test="memo != null and memo != ''"> and a.memo = #{memo} </if>
+  		  <if test="url != null and url != ''"> and a.url = #{url} </if>
+  		  <if test="imageUrl != null and imageUrl != ''"> and a.image_url = #{imageUrl} </if>
+  		  <if test="subTypeId != null and subTypeId != ''"> and a.sub_type_id = #{subTypeId} </if>
+  		  <if test="subTypeName != null and subTypeName != ''"> and b.name = #{subTypeName} </if>
+  		  <if test="type != null and type != ''"> and a.type = #{type} </if>
+  		  <if test="createUser != null and createUser != ''"> and a.create_user = #{createUser} </if>
+  		  <if test="createTime != null and createTime != ''"> and a.create_time = #{createTime} </if>
+  		  <if test="topTime != null and topTime != ''"> and a.top_time = #{topTime} </if>
+  		  <if test="isTop != null and isTop != ''"> and a.is_top = #{isTop} </if>
+  		  <if test="isShow != null and isShow != ''"> and a.is_show = #{isShow} </if>
+  		  <if test="searchName != null and searchName != ''"> and (a.type like '%${searchName}%' or a.title like '%${searchName}%') </if>
+  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.ajb.party.domain.PartyDO">
+		insert into web_party
+		(
+			`id`, 
+			`title`, 
+			`subtitle`, 
+			`content`, 
+			`memo`, 
+			`url`, 
+			`image_url`, 
+			`file_url`, 
+			`type`, 
+			`sub_type_id`,
+			`order_num`,
+			`create_user`, 
+			`create_time`, 
+			`top_time`, 
+			`is_top`, 
+			`is_show`
+		)
+		values
+		(
+			#{id}, 
+			#{title}, 
+			#{subtitle}, 
+			#{content}, 
+			#{memo}, 
+			#{url}, 
+			#{imageUrl}, 
+			#{fileUrl}, 
+			#{type},
+			#{subType},
+			#{orderNum},
+			#{createUser},
+			NOW(), 
+			#{topTime}, 
+			#{isTop}, 
+			#{isShow}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ajb.party.domain.PartyDO">
+		update web_party 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="subtitle != null">`subtitle` = #{subtitle}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="memo != null">`memo` = #{memo}, </if>
+			<if test="url != null">`url` = #{url}, </if>
+			<if test="imageUrl != null">`image_url` = #{imageUrl}, </if>
+			<if test="fileUrl != null">`file_url` = #{fileUrl}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="subType != null">`sub_type_id` = #{subType}, </if>
+			<if test="orderNum != null">`order_num` = #{orderNum}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="topTime != null">`top_time` = #{topTime}, </if>
+			<if test="isDeleted != null">`is_deleted` = #{isDeleted}, </if>
+			<if test="isTop != null">`is_top` = #{isTop}, </if>
+			<if test="isShow != null">`is_show` = #{isShow}</if>
+			<if test="browseNum != null">`browse_num` = #{browseNum}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="updateBrowseNum">
+		update web_party set `browse_num` = `browse_num`+1 where id = #{value}
+	</update>
+	
+	<update id="remove">
+		update web_party set is_deleted = 1 where id = #{value}
+	</update>
+
+</mapper>

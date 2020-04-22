@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bootdo.web.dao.WheelDao">
+<mapper namespace="com.ajb.web.dao.WheelDao">
 
-	<select id="get" resultType="com.bootdo.web.domain.WheelDO">
+	<select id="get" resultType="com.ajb.web.domain.WheelDO">
 		select `id`,`title`,`wheel_url`,`img_url`,`is_deleted` from web_wheel where id = #{value} and is_deleted = 0
 	</select>
 
-	<select id="list" resultType="com.bootdo.web.domain.WheelDO">
+	<select id="list" resultType="com.ajb.web.domain.WheelDO">
 		select `id`,`title`,`wheel_url`,`img_url`,`is_deleted` from web_wheel
         <where> 
         	 and is_deleted = 0 
@@ -42,7 +42,7 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.bootdo.web.domain.WheelDO">
+	<insert id="save" parameterType="com.ajb.web.domain.WheelDO">
 		insert into web_wheel
 		( 
 			`title`, 
@@ -57,7 +57,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.bootdo.web.domain.WheelDO">
+	<update id="update" parameterType="com.ajb.web.domain.WheelDO">
 		update web_wheel 
 		<set>
 			<if test="title != null">`title` = #{title}, </if>

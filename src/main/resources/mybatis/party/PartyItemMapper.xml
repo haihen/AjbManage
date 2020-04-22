@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ajb.party.dao.PartyItemDao">
+
+	<select id="get" resultType="com.ajb.party.domain.PartyItemDO">
+		select `id`,`name`,`order_num`,`type`,`create_time`,`is_show` from web_party_item where id = #{value} and is_deleted = 0
+	</select>
+
+	<select id="list" resultType="com.ajb.party.domain.PartyItemDO">
+		select `id`,`name`,`order_num`,`type`,`create_time`,`is_show` from web_party_item
+        <where>
+        	 and is_deleted = 0  
+  		  <if test="id != null and id != ''"> and id = #{id} </if>
+  		  <if test="name != null and name != ''"> and name like '%${name}%' </if>
+  		  <if test="type != null and type != ''"> and type = #{type} </if>
+  		  <if test="isShow != null and isShow != ''"> and is_show = #{isShow} </if>
+  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by type desc,order_num asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from web_party_item
+		 <where> 
+		 	and is_deleted = 0   
+  		  <if test="id != null and id != ''"> and id = #{id} </if>
+  		  <if test="name != null and name != ''"> and name like '%${name}%' </if>
+  		  <if test="type != null and type != ''"> and type = #{type} </if>
+  		  <if test="isShow != null and isShow != ''"> and is_show = #{isShow} </if>
+  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.ajb.party.domain.PartyItemDO">
+		insert into web_party_item
+		(
+			`id`, 
+			`name`, 
+			`order_num`, 
+			`type`, 
+			`create_time`, 
+			`is_show`
+		)
+		values
+		(
+			#{id}, 
+			#{name}, 
+			#{orderNum}, 
+			'主题教育', 
+			NOW(), 
+			#{isShow}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.ajb.party.domain.PartyItemDO">
+		update web_party_item 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="orderNum != null">`order_num` = #{orderNum}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="isShow != null">`is_show` = #{isShow}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="remove">
+		update web_party_item set is_deleted = 1 where id = #{value}
+	</update>
+
+</mapper>

@@ -25,12 +25,15 @@ function update() {
 		return;
 	}
 	$("#context").val(content_sn);
+	var formData = new FormData($('#signupForm')[0]);
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url : "/oa/activityInfo/update",
-		data : $('#signupForm').serialize(),// 你的formid
+		data : formData,// 你的formid
 		async : false,
+		processData : false,
+        contentType: false,
 		error : function(request) {
 			parent.layer.alert("Connection error");
 		},
@@ -42,7 +45,7 @@ function update() {
 				parent.layer.close(index);
 
 			} else {
-				parent.layer.alert(data.msg)
+				parent.layer.alert(data.msg);
 			}
 
 		}

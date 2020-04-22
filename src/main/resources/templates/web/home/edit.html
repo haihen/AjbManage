@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${home.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">首页模块标题：</label>
+								<div class="col-sm-8">
+									<input id="title" name="title" th:value="${home.title}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">首页模块副标题：</label>
+								<div class="col-sm-8">
+									<input id="subtitle" name="subtitle" th:value="${home.subtitle}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">首页模块主体：</label>
+								<div class="col-sm-8">
+									<input id="content" name="content" th:value="${home.content}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">首页模块描述：</label>
+								<div class="col-sm-8">
+									<input id="memo" name="memo" th:value="${home.memo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">首页模块链接：</label>
+								<div class="col-sm-8">
+									<input id="url" name="url" th:value="${home.url}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">首页模块图片链接：</label>
+								<div class="col-sm-8">
+									<input id="imageUrl" name="imageUrl" th:value="${home.imageUrl}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">首页模块类型：</label>
+								<div class="col-sm-8">
+									<input id="type" name="type" th:value="${home.type}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">创建时间：</label>
+								<div class="col-sm-8">
+									<input id="createTime" name="createTime" th:value="${home.createTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">置顶时间：</label>
+								<div class="col-sm-8">
+									<input id="topTime" name="topTime" th:value="${home.topTime}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">是否删除：</label>
+								<div class="col-sm-8">
+									<input id="isDeleted" name="isDeleted" th:value="${home.isDeleted}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">是否置顶：</label>
+								<div class="col-sm-8">
+									<input id="isTop" name="isTop" th:value="${home.isTop}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">是否展示：</label>
+								<div class="col-sm-8">
+									<input id="isShow" name="isShow" th:value="${home.isShow}" class="form-control" type="text">
+								</div>
+							</div>
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/system/home/edit.js">
+	</script>
+</body>
+</html>
