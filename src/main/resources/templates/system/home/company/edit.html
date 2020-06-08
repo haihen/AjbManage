@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
@@ -33,6 +34,36 @@
 								<div class="col-sm-6">
                                     <img id="preview" alt="image" class="img-responsive" th:src="${company.imageUrl}"  width="200px" height="90px">
                                 </div>
+							</div>
+				        	<div class="form-group">	
+								<label class="col-sm-2 control-label">集团简介视频：</label>
+								<div class="col-sm-9">
+									地址：<span id="tspan" th:text="${company.videoUrl}"></span><br>
+									<video th:src="${company.videoUrl}" controls>
+								</div>
+							</div>
+					        <div class="form-group">	
+								<label class="col-sm-2 control-label">视频类型：</label>
+								<div class="col-sm-9">
+									<select data-placeholder="--选择类别--" name="videoType" id="videoType"
+										class="form-control chosen-select" tabindex="2">
+										<option value="本地视频">本地视频</option>
+										<option value="在线视频">在线视频</option>
+									</select>
+								</div>
+							</div>
+							<div id="local" class="form-group">	
+								<label class="col-sm-2 control-label">本地视频：</label>
+								<div class="col-sm-9">
+									<input id="videoFile" name="videoFile" class="form-control" type="file">
+								</div>
+							</div>
+							<div id="online" class="form-group" style="display:none;">	
+								<label class="col-sm-2 control-label">在线视频：</label>
+								<div class="col-sm-9">
+									<!-- <input id="trainVideo" name="trainVideo" class="form-control" type="text"> -->
+									<input id="videoUrl" name="videoUrl" class="form-control" type="text">
+								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
@@ -84,6 +115,18 @@
 		  });
 
 	    });
+		
+		$("#videoType").change(function () {
+			var videoType = $("#videoType").val();
+			if(videoType=='本地视频'){
+				$("#local").css('display','');
+				$("#online").css('display','none');
+			} else if(videoType=='在线视频'){
+				$("#online").css('display','');
+				$("#local").css('display','none');
+			}
+			
+	  	});
 	</script>	
 </body>
 </html>

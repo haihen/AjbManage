@@ -4,11 +4,11 @@
 <mapper namespace="com.ajb.home.dao.HomeDao">
 
 	<select id="get" resultType="com.ajb.home.domain.HomeDO">
-		select `id`,`title`,`subtitle`,`content`,`memo`,`url`,`image_url`,`type`,`order_num`,`create_time`,`top_time`,`is_deleted`,`is_top`,`is_show` from web_home where id = #{value} and is_deleted = 0
+		select `id`,`title`,`subtitle`,`content`,`memo`,`url`,`image_url`,`video_url`,`type`,`order_num`,`create_time`,`top_time`,`is_deleted`,`is_top`,`is_show` from web_home where id = #{value} and is_deleted = 0
 	</select>
 
 	<select id="list" resultType="com.ajb.home.domain.HomeDO">
-		select `id`,`title`,`subtitle`,`content`,`memo`,`url`,`image_url`,`type`,`order_num`,`create_time`,`top_time`,`is_deleted`,`is_top`,`is_show` from web_home
+		select `id`,`title`,`subtitle`,`content`,`memo`,`url`,`image_url`,`video_url`,`type`,`order_num`,`create_time`,`top_time`,`is_deleted`,`is_top`,`is_show` from web_home
         <where>
         	 and is_deleted = 0  
   		  <if test="id != null and id != ''"> and id = #{id} </if>
@@ -18,6 +18,7 @@
   		  <if test="memo != null and memo != ''"> and memo = #{memo} </if>
   		  <if test="url != null and url != ''"> and url = #{url} </if>
   		  <if test="imageUrl != null and imageUrl != ''"> and image_url = #{imageUrl} </if>
+  		  <if test="videoUrl != null and videoUrl != ''"> and video_url = #{videoUrl} </if>
   		  <if test="type != null and type != ''"> and type = #{type} </if>
   		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
   		  <if test="topTime != null and topTime != ''"> and top_time = #{topTime} </if>
@@ -50,6 +51,7 @@
   		  <if test="memo != null and memo != ''"> and memo = #{memo} </if>
   		  <if test="url != null and url != ''"> and url = #{url} </if>
   		  <if test="imageUrl != null and imageUrl != ''"> and image_url = #{imageUrl} </if>
+  		  <if test="videoUrl != null and videoUrl != ''"> and video_url = #{videoUrl} </if>
   		  <if test="type != null and type != ''"> and type = #{type} </if>
   		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
   		  <if test="topTime != null and topTime != ''"> and top_time = #{topTime} </if>
@@ -69,7 +71,8 @@
 			`content`, 
 			`memo`, 
 			`url`, 
-			`image_url`, 
+			`image_url`,
+			`video_url`, 
 			`type`, 
 			`order_num`,
 			`create_time`, 
@@ -86,6 +89,7 @@
 			#{memo}, 
 			#{url}, 
 			#{imageUrl}, 
+			#{videoUrl}, 
 			#{type},
 			#{orderNum},
 			#{createTime}, 
@@ -104,6 +108,7 @@
 			<if test="memo != null">`memo` = #{memo}, </if>
 			<if test="url != null">`url` = #{url}, </if>
 			<if test="imageUrl != null">`image_url` = #{imageUrl}, </if>
+			<if test="videoUrl != null">`video_url` = #{videoUrl}, </if>
 			<if test="type != null">`type` = #{type}, </if>
 			<if test="orderNum != null">`order_num` = #{orderNum}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>

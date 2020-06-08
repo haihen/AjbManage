@@ -29,6 +29,8 @@ public class HomeDO implements Serializable {
 	private String url;
 	//首页模块图片链接
 	private String imageUrl;
+	//首页模块视频链接
+	private String videoUrl;
 	//首页模块类型
 	private String type;
 	//排序
@@ -206,6 +208,12 @@ public class HomeDO implements Serializable {
 	}
 	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
+	}
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 	
 }

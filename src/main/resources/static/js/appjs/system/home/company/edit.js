@@ -27,11 +27,11 @@ function update() {
 		return;
 	}
 	$("#content").val(content_sn);
-	var coverImg = $("#imageFile").val();
+	/*var coverImg = $("#imageFile").val();
 	if(coverImg==null||coverImg==''){
 		parent.layer.alert("请选择集团简介图");
 		return;
-	}
+	}*/
 	var formData = new FormData($('#signupForm')[0]);
 	$.ajax({
 		cache : true,
@@ -47,6 +47,7 @@ function update() {
 		success : function(data) {
 			if (data.code == 0) {
 				parent.layer.msg("修改集团简介信息成功");
+				window.location.reload();
 			} else {
 				parent.layer.alert(data.msg)
 			}

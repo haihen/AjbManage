@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.util.TextUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -90,10 +91,12 @@ public class HomeCompanyController {
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("system:home:editcompany")
-	public R update(@RequestParam("imageFile") MultipartFile imageFile,HomeDO home){
-		String fileName = "",fileUrl = "";
+	public R update(@RequestParam("imageFile") MultipartFile imageFile,
+					@RequestParam("videoFile") MultipartFile videoFile,
+					HomeDO home){
 		
 		if(imageFile!=null && !imageFile.isEmpty()){
+			String fileName = "",fileUrl = "";
 			fileName = imageFile.getOriginalFilename();
 			// 验证文件类型
 			if (FileType.fileType(fileName)!=0) {
@@ -121,6 +124,33 @@ public class HomeCompanyController {
 				return R.error();
 			}
 			home.setImageUrl("/files/"+fileUrl+fileName);
+		}
+		
+		String videoUrl = "";
+		
+		if(videoFile!=null && !videoFile.isEmpty()){
+			String viFileName = "",viFileUrl = "";
+			
+			viFileName = videoFile.getOriginalFilename();
+			// 验证文件类型
+			if (FileType.fileType(viFileName)!=2) {
+				return R.error(1, "视频类型错误，请上传视频文件！");
+			}
+			// 最大500M
+			if (videoFile.getSize() > (500 * 1024 * 1024)) {
+				return R.error(1, "视频大小错误，请上传500M大小以内的视频！");
+			}
+			viFileName = FileUtil.renameToUUID(viFileName);
+			viFileUrl =FileUtil.reUrl("homeCompanyJsVideo");
+			try {
+				FileUtil.uploadFile(videoFile.getBytes(), bootdoConfig.getUploadPath()+viFileUrl, viFileName);
+			} catch (Exception e) {
+				return R.error();
+			}
+			videoUrl = "/files/"+viFileUrl+viFileName;
+			home.setVideoUrl(videoUrl);
+		} else if(!TextUtils.isEmpty(home.getVideoUrl())){
+			home.setVideoUrl(home.getVideoUrl());
 		}
 		
 		homeService.update(home);
