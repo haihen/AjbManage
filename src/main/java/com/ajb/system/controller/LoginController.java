@@ -105,6 +105,7 @@ public class LoginController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
+            subject.getSession().setTimeout(-1001);
             return R.ok();
         } catch (AuthenticationException e) {
             return R.error("用户或密码错误");
