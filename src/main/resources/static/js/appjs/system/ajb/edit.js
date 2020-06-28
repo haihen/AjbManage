@@ -8,12 +8,15 @@ $.validator.setDefaults({
 	}
 });
 function update() {
+	var formData = new FormData($('#signupForm')[0]);
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url :"/system/ajb/type/update",
-		data : $('#signupForm').serialize(),
+		data : formData,// 你的formid
 		async : false,
+		processData : false,
+        contentType: false,
 		error : function(request) {
 			layer.alert("Connection error");
 		},

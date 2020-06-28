@@ -53,6 +53,22 @@ function load() {
                         field: 'name',
                         title: '模块名称'
                     },
+                    { 
+	                    field: 'imageUrl', title: '模块图标',
+	                    formatter:function(value,row,index){
+		                    var s;
+		                    if(row.imageUrl!=null){
+		                    var url = row.imageUrl;
+		                    s = '<a class = "view"  href="javascript:void(0)"><img style="width:300;height:40px;"  src="'+url+'" /></a>';
+		                    }
+	                         return s;
+                     
+	                    }
+/*                        ,
+                     
+	                    //定义点击之后放大图片的事件
+	                    events: 'operateEvents'*/
+                    },
                     {
                         field: 'type',
                         title: '模块类型'

@@ -19,6 +19,8 @@ public class AjbTypeDO implements Serializable {
 	private Integer id;
 	//模块名称
 	private String name;
+	//模块图标
+	private String imageUrl;
 	//所属菜单
 	private String type;
 	//模块排序
@@ -55,4 +57,11 @@ public class AjbTypeDO implements Serializable {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	
 }

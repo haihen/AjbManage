@@ -117,13 +117,15 @@ public class WebWorkController {
 		List<AjbTypeImageDO> ajbTypeImageList = ajbTypeImageService.list(params2);
 		map.put("ajbTypeImageList", ajbTypeImageList);
 		//模块类型
-		String[] ajbTypeListArray = {"房地产开发","市政基础设施","商业运营","建筑节能及新技术推广","物业服务","供热民生"};
-		List<AjbTypeDO> ajbTypeList = new ArrayList<AjbTypeDO>();
-		for(String ajbType:ajbTypeListArray){
-			AjbTypeDO ajb = new AjbTypeDO();
-			ajb.setName(ajbType);
-			ajbTypeList.add(ajb);
-		}
+//		String[] ajbTypeListArray = {"房地产开发","市政基础设施","商业运营","建筑节能及新技术推广","物业服务","供热民生"};
+//		List<AjbTypeDO> ajbTypeList = new ArrayList<AjbTypeDO>();
+//		for(String ajbType:ajbTypeListArray){
+//			AjbTypeDO ajb = new AjbTypeDO();
+//			ajb.setName(ajbType);
+//			ajbTypeList.add(ajb);
+//		}
+//		map.put("ajbTypeList", ajbTypeList);
+		List<AjbTypeDO> ajbTypeList = ajbTypeService.list(params2);
 		map.put("ajbTypeList", ajbTypeList);
 
 		message.setMessage("查询成功");

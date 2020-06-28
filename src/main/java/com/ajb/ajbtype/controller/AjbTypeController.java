@@ -1,5 +1,6 @@
 package com.ajb.ajbtype.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ajb.ajbtype.domain.AjbTypeDO;
 import com.ajb.ajbtype.service.AjbTypeService;
+import com.ajb.common.config.BootdoConfig;
+import com.ajb.common.utils.CheckFileFormatUtil;
+import com.ajb.common.utils.FileType;
+import com.ajb.common.utils.FileUtil;
 import com.ajb.common.utils.PageUtils;
 import com.ajb.common.utils.Query;
 import com.ajb.common.utils.R;
@@ -31,6 +37,8 @@ import com.ajb.common.utils.R;
 public class AjbTypeController {
 	@Autowired
 	private AjbTypeService ajbTypeService;
+	@Autowired
+	private BootdoConfig bootdoConfig;
 	
 	@GetMapping()
 	@RequiresPermissions("system:ajb:type")
@@ -83,7 +91,38 @@ public class AjbTypeController {
 	@ResponseBody
 	@PostMapping("/save")
 	@RequiresPermissions("system:ajb:addtype")
-	public R save( AjbTypeDO ajbType){
+	public R save(@RequestParam("imageFile") MultipartFile imageFile,AjbTypeDO ajbType){
+		String fileName = "",fileUrl = "";
+		
+		if(imageFile!=null && !imageFile.isEmpty()){
+			fileName = imageFile.getOriginalFilename();
+			// 验证文件类型
+			if (FileType.fileType(fileName)!=0) {
+				return R.error(1001, "图片类型错误，请上传图片文件！");
+			}
+			// 最大4m
+			if (imageFile.getSize() > (4 * 1024 * 1024)) {
+				return R.error(1002, "图片大小错误，请上传4M大小以内的图片！");
+			}
+			fileName = FileUtil.renameToUUID(fileName);
+			fileUrl =FileUtil.reUrl("ajbTypeImg");
+			try {
+				FileUtil.uploadFile(imageFile.getBytes(), bootdoConfig.getUploadPath()+fileUrl, fileName);
+				String fName = bootdoConfig.getUploadPath()+fileUrl+System.getProperty("file.separator")+fileName;
+				boolean isImage = false;
+				if(CheckFileFormatUtil.getFileType(fName)!=null){
+					isImage = true;
+				}
+				if(!isImage){
+					File imgFile = new File(fName);
+					imgFile.delete();
+					return R.error(1001, "图片类型错误，请上传图片文件！");
+				}
+			} catch (Exception e) {
+				return R.error();
+			}
+			ajbType.setImageUrl("/files/"+fileUrl+fileName);
+		}
 		if(ajbTypeService.save(ajbType)>0){
 			return R.ok();
 		}
@@ -95,7 +134,40 @@ public class AjbTypeController {
 	@ResponseBody
 	@RequestMapping("/update")
 	@RequiresPermissions("system:ajb:edittype")
-	public R update(AjbTypeDO ajbType){
+	public R update(@RequestParam("imageFile") MultipartFile imageFile,AjbTypeDO ajbType){
+		
+		String fileName = "",fileUrl = "";
+		
+		if(imageFile!=null && !imageFile.isEmpty()){
+			fileName = imageFile.getOriginalFilename();
+			// 验证文件类型
+			if (FileType.fileType(fileName)!=0) {
+				return R.error(1001, "图片类型错误，请上传图片文件！");
+			}
+			// 最大4m
+			if (imageFile.getSize() > (4 * 1024 * 1024)) {
+				return R.error(1002, "图片大小错误，请上传4M大小以内的图片！");
+			}
+			fileName = FileUtil.renameToUUID(fileName);
+			fileUrl =FileUtil.reUrl("homeHonorImg");
+			try {
+				FileUtil.uploadFile(imageFile.getBytes(), bootdoConfig.getUploadPath()+fileUrl, fileName);
+				String fName = bootdoConfig.getUploadPath()+fileUrl+System.getProperty("file.separator")+fileName;
+				boolean isImage = false;
+				if(CheckFileFormatUtil.getFileType(fName)!=null){
+					isImage = true;
+				}
+				if(!isImage){
+					File imgFile = new File(fName);
+					imgFile.delete();
+					return R.error(1001, "图片类型错误，请上传图片文件！");
+				}
+			} catch (Exception e) {
+				return R.error();
+			}
+			ajbType.setImageUrl("/files/"+fileUrl+fileName);
+		}
+		
 		ajbTypeService.update(ajbType);
 		return R.ok();
 	}

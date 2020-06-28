@@ -8,12 +8,15 @@ $.validator.setDefaults({
 	}
 });
 function save() {
+	var formData = new FormData($('#signupForm')[0]);
 	$.ajax({
 		cache : true,
 		type : "POST",
 		url :"/system/ajb/type/save",
-		data : $('#signupForm').serialize(),
+		data : formData,// 你的formid
 		async : false,
+		processData : false,
+        contentType: false,
 		error : function(request) {
 			laryer.alert("Connection error");
 		},

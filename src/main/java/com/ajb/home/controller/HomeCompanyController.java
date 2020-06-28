@@ -65,9 +65,9 @@ public class HomeCompanyController {
 	    return "system/home/company/add";
 	}
 
-	@GetMapping("/edit/{id}")
+	@GetMapping("/edit")
 	@RequiresPermissions("system:home:editcompany")
-	String edit(@PathVariable("id") Integer id,Model model){
+	String edit(@RequestParam("id") Integer id,Model model){
 		HomeDO home = homeService.get(id);
 		model.addAttribute("company", home);
 	    return "system/home/company/edit";
@@ -149,8 +149,10 @@ public class HomeCompanyController {
 			}
 			videoUrl = "/files/"+viFileUrl+viFileName;
 			home.setVideoUrl(videoUrl);
-		} else if(!TextUtils.isEmpty(home.getVideoUrl())){
-			home.setVideoUrl(home.getVideoUrl());
+		}
+		
+		if(TextUtils.isEmpty(home.getVideoUrl())){
+			home.setVideoUrl(null);
 		}
 		
 		homeService.update(home);
