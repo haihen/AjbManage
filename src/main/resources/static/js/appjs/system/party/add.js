@@ -74,7 +74,7 @@ function save() {
 	}
 	$("#content").val(content_sn);
 
-	var type = $("#type").val();
+/*	var type = $("#type").val();
 	if(type=='主题教育'){
 		var coverImg = $("#imageFile").val();
 		if(coverImg==null||coverImg==''){
@@ -88,7 +88,7 @@ function save() {
 			parent.layer.alert("请选择党的建设文件");
 			return;
 		}
-	}
+	}*/
 	
 	var formData = new FormData($('#signupForm')[0]);
 	$.ajax({
