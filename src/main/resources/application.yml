@@ -1,6 +1,7 @@
 server:
   session-timeout: 1800
-#    tomcat:
+  tomcat:
+    connection-timeout: 1800000  
 #        max-threads: 1000
 #        min-spare-threads: 30
   port: 8000
@@ -19,8 +20,8 @@ spring:
     active: dev
   servlet:
     multipart:
-      max-file-size: 100Mb
-      max-request-size: 100Mb
+      max-file-size: 500Mb
+      max-request-size: 500Mb
   devtools:
     restart:
       enabled: true
